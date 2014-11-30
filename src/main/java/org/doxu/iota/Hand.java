@@ -17,6 +17,10 @@ public class Hand {
         return cardCount() == MAX_HAND;
     }
 
+    public boolean isEmpty() {
+        return cards.isEmpty();
+    }
+
     public int cardCount() {
         return cards.size();
     }

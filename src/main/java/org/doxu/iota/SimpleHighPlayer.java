@@ -29,6 +29,10 @@ public class SimpleHighPlayer extends Player {
         }
     }
 
+    public SimpleHighPlayer() {
+        setName("simple high");
+    }
+
     @Override
     public Laydown turn() {
         PriorityQueue<ScoreLaydown> options = new PriorityQueue<>();
@@ -41,12 +45,7 @@ public class SimpleHighPlayer extends Player {
                 try {
                     int score = getBoard().copy().applyLaydown(laydown);
                     options.add(new ScoreLaydown(score, laydown));
-//                    getBoard().validLaydown(laydown);
-//                    return laydown;
                 } catch (IllegalLaydownException ex) {
-//                    System.out.println(ex.getMessage());
-//                    getBoard().print();
-//                Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }

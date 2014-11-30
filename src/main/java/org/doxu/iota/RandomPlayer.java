@@ -12,6 +12,10 @@ public class RandomPlayer extends Player {
 
     private final Random random = new Random();
 
+    public RandomPlayer() {
+        setName("random");
+    }
+
     @Override
     public Laydown turn() {
         for (Card card : getHand().getCards()) {

@@ -7,9 +7,14 @@ package org.doxu.iota;
 public abstract class Player {
 
     private String name;
+    private int index;
     private Hand hand;
     private Board board;
     private int score;
+
+    public Player() {
+        name = "";
+    }
 
     public abstract Laydown turn();
 
@@ -33,6 +38,10 @@ public abstract class Player {
         score += moveScore;
     }
 
+    String getDisplayName() {
+        return index + " " + name;
+    }
+
     public int getScore() {
         return score;
     }
@@ -43,6 +52,14 @@ public abstract class Player {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
     }
 
 }

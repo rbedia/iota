@@ -18,16 +18,19 @@ public class Game {
         board = new Board();
         deck = new Deck();
         this.players = players;
+        int index = 1;
         for (Player player : players) {
-            PlayerFactory.init(player, board);
+            PlayerFactory.init(player, index, board);
+            index++;
         }
     }
 
     public static class PlayerFactory {
 
-        public static void init(Player player, Board board) {
+        public static void init(Player player, int index, Board board) {
             player.setHand(new Hand());
             player.setBoard(board);
+            player.setIndex(index);
         }
     }
 
@@ -69,9 +72,17 @@ public class Game {
                 } else {
                     try {
                         // TODO verify that all cards in laydown came from player's hand
-                        player.addScore(board.applyLaydown(laydown));
+                        int score = board.applyLaydown(laydown);
                         player.getHand().remove(laydown.getCards());
                         deal(player);
+                        if (player.getHand().isEmpty()) {
+                            System.out.println("Player " + player.getDisplayName() + " went out. Score doubled.");
+                            score *= 2;
+                            player.addScore(score);
+                            play = false;
+                            break;
+                        }
+                        player.addScore(score);
                     } catch (IllegalLaydownException ex) {
                         System.out.println(ex.getMessage());
                     }
@@ -83,7 +94,7 @@ public class Game {
             }
             System.out.println("End of round " + round + ":");
             for (Player player : players) {
-                System.out.println("   Player " + player.getName() + ": " + player.getScore());
+                System.out.println("   Player " + player.getDisplayName() + ": " + player.getScore());
             }
             board.print();
         }
@@ -119,7 +130,7 @@ public class Game {
 
     public void printHands() {
         for (Player player : players) {
-            System.out.print("Hand:");
+            System.out.print("Player " + player.getDisplayName() + " Hand:");
             for (Card card : player.getHand().getCards()) {
                 System.out.print(" " + card);
             }
