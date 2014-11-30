@@ -25,6 +25,19 @@ public class Board {
     private int maxX;
     private int maxY;
 
+    public Board copy() {
+        Board board = new Board(copyCards());
+        board.minX = minX;
+        board.minY = minY;
+        board.maxX = maxX;
+        board.maxY = maxY;
+        return board;
+    }
+
+    private Board(Card[][] cards) {
+        this.cards = cards;
+    }
+
     public Board() {
         minX = BOARD_SIZE;
         minY = BOARD_SIZE;
@@ -145,14 +158,14 @@ public class Board {
         if (!allowed) {
             throw new IllegalLaydownException("Laydown overlaps existing cards.");
         }
-        Card[][] cardCopy = copy();
+        Card[][] cardCopy = copyCards();
         for (Move move : moves) {
             cardCopy[move.getLocation().getX()][move.getLocation().getY()] = move.getCard();
         }
         validateBoard(cardCopy);
     }
 
-    private Card[][] copy() {
+    private Card[][] copyCards() {
         Card[][] cardsCopy = new Card[cards.length][cards[0].length];
         for (int i = 0; i < cardsCopy.length; i++) {
             cardsCopy[i] = Arrays.copyOf(cards[i], cards[i].length);

@@ -1,6 +1,5 @@
 package org.doxu.iota;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,16 +14,20 @@ public class Game {
 
     private final List<Player> players;
 
-    public Game(int playerCount) {
+    public Game(List<Player> players) {
         board = new Board();
         deck = new Deck();
-        this.players = new ArrayList<>(playerCount);
-        for (int i = 0; i < playerCount; i++) {
-            Player player = new RandomPlayer();
-            player.setName("" + (i + 1));
+        this.players = players;
+        for (Player player : players) {
+            PlayerFactory.init(player, board);
+        }
+    }
+
+    public static class PlayerFactory {
+
+        public static void init(Player player, Board board) {
             player.setHand(new Hand());
             player.setBoard(board);
-            this.players.add(player);
         }
     }
 
