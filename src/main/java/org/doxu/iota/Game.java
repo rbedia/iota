@@ -100,28 +100,6 @@ public class Game {
         }
     }
 
-//    public void playRandom() {
-//        Random random = new Random();
-//        while (!players.get(0).getCards().isEmpty()) {
-//            for (Hand hand : players) {
-//                Card card1 = hand.getCards().get(0);
-//                hand.remove(card1);
-//                boolean success = false;
-//                while (!success) {
-//                    Laydown laydown = new Laydown();
-//                    laydown.addMove(new Move(new Location(random.nextInt(10) + 60, random.nextInt(10) + 60), card1));
-//                    try {
-//                        board.applyLaydown(laydown);
-//                        success = true;
-//                    } catch (IllegalLaydownException ex) {
-//                        System.out.println(ex.getMessage());
-//                        printBoard();
-////                        Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
-//                    }
-//                }
-//            }
-//        }
-//    }
     public void printDeck() {
         for (Card card : deck.getCards()) {
             System.out.println(card);
