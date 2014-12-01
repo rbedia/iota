@@ -1,6 +1,7 @@
 package org.doxu.iota;
 
 import java.util.Comparator;
+import java.util.Objects;
 import org.doxu.iota.attr.Color;
 import org.doxu.iota.attr.Count;
 import org.doxu.iota.attr.Shape;
@@ -61,6 +62,32 @@ public class Card {
 
     public int getPoints() {
         return getCount().points();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(color, shape, count);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Card other = (Card) obj;
+        if (this.color != other.color) {
+            return false;
+        }
+        if (this.shape != other.shape) {
+            return false;
+        }
+        if (this.count != other.count) {
+            return false;
+        }
+        return true;
     }
 
     @Override
