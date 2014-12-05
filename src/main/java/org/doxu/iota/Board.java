@@ -2,7 +2,6 @@ package org.doxu.iota;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -213,7 +212,7 @@ public class Board {
                 if (cardCopy[i][j] != Card.BLANK) {
                     lot.add(cardCopy[i][j]);
                 } else {
-                    validateLot(lot);
+                    LotValidator.validate(lot);
                     lot.clear();
                 }
             }
@@ -225,41 +224,9 @@ public class Board {
                 if (cardCopy[j][i] != Card.BLANK) {
                     lot.add(cardCopy[j][i]);
                 } else {
-                    validateLot(lot);
+                    LotValidator.validate(lot);
                     lot.clear();
                 }
-            }
-        }
-    }
-
-    public void validateLot(List<Card> lot) throws IllegalLaydownException {
-        // Lots of two or fewer cards are always valid
-        if (lot.size() <= 2) {
-            return;
-        }
-        // Lots of 5 or more cards are always invalid
-        if (lot.size() > 4) {
-            throw new IllegalLaydownException("A maximum of 4 cards can be in a lot.");
-        }
-        if (lot.size() == 3) {
-            if (!LotValidator.validate3(lot.get(0).getShape(), lot.get(1).getShape(), lot.get(2).getShape())) {
-                throw new IllegalLaydownException("Must be all the same or all different");
-            }
-            if (!LotValidator.validate3(lot.get(0).getColor(), lot.get(1).getColor(), lot.get(2).getColor())) {
-                throw new IllegalLaydownException("Must be all the same or all different");
-            }
-            if (!LotValidator.validate3(lot.get(0).getCount(), lot.get(1).getCount(), lot.get(2).getCount())) {
-                throw new IllegalLaydownException("Must be all the same or all different");
-            }
-        } else {
-            if (!LotValidator.validate4(lot.get(0).getShape(), lot.get(1).getShape(), lot.get(2).getShape(), lot.get(3).getShape())) {
-                throw new IllegalLaydownException("Must be all the same or all different");
-            }
-            if (!LotValidator.validate4(lot.get(0).getColor(), lot.get(1).getColor(), lot.get(2).getColor(), lot.get(3).getColor())) {
-                throw new IllegalLaydownException("Must be all the same or all different");
-            }
-            if (!LotValidator.validate4(lot.get(0).getCount(), lot.get(1).getCount(), lot.get(2).getCount(), lot.get(3).getCount())) {
-                throw new IllegalLaydownException("Must be all the same or all different");
             }
         }
     }
