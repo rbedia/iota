@@ -54,7 +54,7 @@ public class Game {
         board.addFirst(first);
     }
 
-    public void play() {
+    public void play(PlayListener listener) {
         boolean play = true;
         int round = 0;
         while (play) {
@@ -66,8 +66,9 @@ public class Game {
                     break;
                 }
                 Laydown laydown = player.turn();
+                listener.turn(player, laydown);
                 if (laydown == null) {
-                    System.out.println("Player is passing.");
+                    System.out.println("Player " + player.getDisplayName() + " is passing.");
                     passCount++;
                 } else {
                     try {
@@ -118,5 +119,9 @@ public class Game {
 
     public void printBoard() {
         board.print();
+    }
+
+    public Board getBoard() {
+        return board;
     }
 }

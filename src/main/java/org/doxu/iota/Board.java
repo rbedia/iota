@@ -252,8 +252,8 @@ public class Board {
     }
 
     public void print() {
-        for (int x = minX; x < maxX + 1; x++) {
-            for (int y = minY; y < maxY + 1; y++) {
+        for (int y = minY; y < maxY + 1; y++) {
+            for (int x = minX; x < maxX + 1; x++) {
                 System.out.print(" " + cards[x][y]);
             }
             System.out.println();
@@ -267,5 +267,13 @@ public class Board {
 
     private Card getCard(Location location) {
         return cards[location.getX()][location.getY()];
+    }
+
+    public Card[][] getCards() {
+        return cards;
+    }
+
+    public int[] getExtents() {
+        return new int[]{minX, minY, maxX, maxY};
     }
 }

@@ -21,7 +21,7 @@ public class Main {
         game.deal();
         game.printHands();
         game.playStartingCard();
-        game.play();
+        game.play(new NullPlayListener());
         game.printHands();
     }
 
