@@ -8,13 +8,17 @@ import java.util.List;
  */
 public class Game {
 
-    private final Board board;
+    private Board board;
 
-    private final Deck deck;
+    private Deck deck;
 
-    private final List<Player> players;
+    private List<Player> players;
 
     public Game(List<Player> players) {
+        reset(players);
+    }
+
+    public final void reset(List<Player> players) {
         board = new Board();
         deck = new Deck();
         this.players = players;
@@ -66,7 +70,6 @@ public class Game {
                     break;
                 }
                 Laydown laydown = player.turn();
-                listener.turn(player, laydown);
                 if (laydown == null) {
                     System.out.println("Player " + player.getDisplayName() + " is passing.");
                     passCount++;
@@ -79,14 +82,16 @@ public class Game {
                         if (player.getHand().isEmpty()) {
                             System.out.println("Player " + player.getDisplayName() + " went out. Score doubled.");
                             score *= 2;
-                            player.addScore(score);
                             play = false;
-                            break;
                         }
                         player.addScore(score);
                     } catch (IllegalLaydownException ex) {
                         System.out.println(ex.getMessage());
                     }
+                }
+                listener.turn(player, laydown);
+                if (!play) {
+                    break;
                 }
             }
             if (passCount == players.size()) {
@@ -123,5 +128,9 @@ public class Game {
 
     public Board getBoard() {
         return board;
+    }
+
+    public List<Player> getPlayers() {
+        return players;
     }
 }
