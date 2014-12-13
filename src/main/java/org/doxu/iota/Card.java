@@ -107,4 +107,8 @@ public class Card {
         return count;
     }
 
+    public boolean isBlank() {
+        return this == BLANK;
+    }
+
 }
