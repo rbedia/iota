@@ -13,11 +13,15 @@ public class CardRenderer {
 
     public static final int CARD_WIDTH = 24;
 
-    private static final int INSET = 2;
+    public static final int INSET = 2;
 
     private static final Color OUTLINE_COLOR = new Color(0, 0, 0);
-
     private static final Color CARD_COLOR = new Color(255, 255, 255);
+    private static final Color BLUE_COLOR = new Color(150, 200, 255);
+    private static final Color GREEN_COLOR = new Color(144, 209, 64);
+    private static final Color RED_COLOR = new Color(255, 100, 100);
+    private static final Color YELLOW_COLOR = new Color(243, 247, 12);
+    private static final Color WHITE_COLOR = new Color(255, 255, 255);
 
     public static void draw(Graphics2D g, Card card, int x, int y) {
         drawBackground(g, x, y);
@@ -28,6 +32,8 @@ public class CardRenderer {
     private static void drawBackground(Graphics2D g, int x, int y) {
         g.setColor(CARD_COLOR);
         g.fillRect(x + INSET, y + INSET, CARD_WIDTH - INSET * 2, CARD_WIDTH - INSET * 2);
+        g.setColor(OUTLINE_COLOR);
+        g.drawRect(x + INSET, y + INSET, CARD_WIDTH - INSET * 2, CARD_WIDTH - INSET * 2);
     }
 
     private static void drawDots(Graphics2D g, Card card, int x, int y) {
@@ -145,20 +151,20 @@ public class CardRenderer {
         Color color;
         switch (card.getColor()) {
             case BLUE:
-                color = new Color(150, 200, 255);
+                color = BLUE_COLOR;
                 break;
             case GREEN:
-                color = new Color(0, 255, 0);
+                color = GREEN_COLOR;
                 break;
             case RED:
-                color = new Color(255, 0, 0);
+                color = RED_COLOR;
                 break;
             case YELLOW:
-                color = new Color(255, 255, 50);
+                color = YELLOW_COLOR;
                 break;
             case BLANK:
             default:
-                color = new Color(255, 255, 255);
+                color = WHITE_COLOR;
                 break;
         }
         return color;
