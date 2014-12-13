@@ -38,10 +38,10 @@ public class Board {
     }
 
     public Board() {
-        minX = BOARD_SIZE;
-        minY = BOARD_SIZE;
-        maxX = 0;
-        maxY = 0;
+        minX = MIDDLE;
+        minY = MIDDLE;
+        maxX = MIDDLE;
+        maxY = MIDDLE;
         cards = new Card[BOARD_SIZE][BOARD_SIZE];
         for (int x = 0; x < BOARD_SIZE; x++) {
             for (int y = 0; y < BOARD_SIZE; y++) {
