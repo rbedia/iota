@@ -1,37 +1,52 @@
 package org.doxu.iota.ui;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JPanel;
-import org.doxu.iota.Board;
 import org.doxu.iota.Card;
-import org.doxu.iota.Laydown;
-import org.doxu.iota.PlayListener;
-import org.doxu.iota.Player;
+import org.doxu.iota.Game;
 
 /**
  *
  * @author rafael
  */
-public class Table extends JPanel implements PlayListener {
+public class Table extends JPanel {
 
-    private final Board board;
+    private static final Color TABLE_COLOR = new Color(153, 186, 132);
 
-    public Table(Board board) {
-        this.board = board;
+    private final Game game;
+
+    public Table(Game game) {
+        this.game = game;
+        setBackground(TABLE_COLOR);
     }
 
     private void draw(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
 
-        Card[][] cards = board.getCards();
-        int[] extents = board.getExtents();
-        int padding = 4;
+        int tableWidth = getWidth();
+        int tableHeight = getHeight();
+
+        Card[][] cards = game.getBoard().getCards();
+        int[] extents = game.getBoard().getExtents();
+        int cardsAcross = extents[2] - extents[0] + 1;
+        int cardsDown = extents[3] - extents[1] + 1;
+        int cardsWidth = cardsAcross * CardRenderer.CARD_WIDTH;
+        int cardsHeight = cardsDown * CardRenderer.CARD_WIDTH;
+        int xAnchor = (tableWidth - cardsWidth) / 2;
+        int yAnchor = (tableHeight - cardsHeight) / 2;
+
+        g2d.setColor(new Color(60, 60, 60));
+        g2d.drawRect(xAnchor, yAnchor, cardsWidth, cardsHeight);
+
+        System.out.println(tableWidth + "x" + tableHeight + " - " + cardsAcross + "x" + cardsDown + " - " + cardsWidth + "x" + cardsHeight);
+        int padding = 0;
         for (int i = extents[0] - padding; i <= extents[2] + padding; i++) {
             for (int j = extents[1] - padding; j <= extents[3] + padding; j++) {
-                CardRenderer.draw(g2d, cards[i][j], (i - extents[0] + padding) * CardRenderer.CARD_WIDTH, (j - extents[1] + padding) * CardRenderer.CARD_WIDTH);
+                if (!cards[i][j].isBlank()) {
+                    CardRenderer.draw(g2d, cards[i][j], xAnchor + (i - extents[0] + padding) * CardRenderer.CARD_WIDTH, yAnchor + (j - extents[1] + padding) * CardRenderer.CARD_WIDTH);
+                }
             }
         }
     }
@@ -40,15 +55,5 @@ public class Table extends JPanel implements PlayListener {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         draw(g);
-    }
-
-    @Override
-    public void turn(Player player, Laydown laydown) {
-        repaint();
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(Table.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 }
