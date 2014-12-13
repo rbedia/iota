@@ -38,7 +38,7 @@ public abstract class Player {
         score += moveScore;
     }
 
-    String getDisplayName() {
+    public String getDisplayName() {
         return index + " " + name;
     }
 
