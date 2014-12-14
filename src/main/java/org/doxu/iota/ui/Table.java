@@ -20,6 +20,8 @@ public class Table extends JPanel implements ComponentListener {
 
     private static final Color TABLE_COLOR = new Color(153, 186, 132);
     private static final Color TABLE_BOUNDS_COLOR = new Color(90, 90, 90);
+    private static final Color STARTING_CARD_COLOR = new Color(255, 0, 0);
+    private static final Color GRID_COLOR = new Color(200, 200, 255);
 
     private final Board board;
 
@@ -30,8 +32,6 @@ public class Table extends JPanel implements ComponentListener {
         this.board = board;
         setBackground(TABLE_COLOR);
         addComponentListener(this);
-//        xAnchor = -10000;
-//        yAnchor = -10000;
         xAnchor = 12;
         yAnchor = 12;
     }
@@ -45,7 +45,31 @@ public class Table extends JPanel implements ComponentListener {
     private void draw(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
 
-        g2d.setColor(new Color(200, 200, 255));
+        drawGrid(g2d);
+        drawTableBounds(g2d);
+
+        int xTileOffset = Board.MIDDLE - xAnchor;
+        int yTileOffset = Board.MIDDLE - yAnchor;
+
+        Card[][] cards = board.getCards();
+        for (int i = 0; i < getTableWidth(); i++) {
+            for (int j = 0; j < getTableHeight(); j++) {
+                Card card = cards[i + xTileOffset][j + yTileOffset];
+                if (!card.isBlank()) {
+                    int x = i * CardRenderer.CARD_WIDTH;
+                    int y = j * CardRenderer.CARD_WIDTH;
+                    CardRenderer.draw(g2d, card, x, y);
+                    if (i == xAnchor && j == yAnchor) {
+                        g2d.setColor(STARTING_CARD_COLOR);
+                        g2d.drawRect(x, y, CardRenderer.CARD_WIDTH, CardRenderer.CARD_WIDTH);
+                    }
+                }
+            }
+        }
+    }
+
+    private void drawGrid(Graphics2D g2d) {
+        g2d.setColor(GRID_COLOR);
         Dimension tableDim = getSize();
         for (int i = CardRenderer.CARD_WIDTH; i < tableDim.height; i += CardRenderer.CARD_WIDTH) {
             g2d.drawLine(0, i, tableDim.width, i);
@@ -53,30 +77,20 @@ public class Table extends JPanel implements ComponentListener {
         for (int i = CardRenderer.CARD_WIDTH; i < tableDim.width; i += CardRenderer.CARD_WIDTH) {
             g2d.drawLine(i, 0, i, tableDim.height);
         }
+    }
 
-        Card[][] cards = board.getCards();
-
-        BoardBounds bounds = board.getBounds();
-        Rectangle tableBounds = getTableBounds();
-        int xAnchor = tableBounds.x;
-        int yAnchor = tableBounds.y;
-
+    private void drawTableBounds(Graphics2D g2d) {
+        Rectangle tableBounds = toScreenCoords(getTableBounds());
         g2d.setColor(TABLE_BOUNDS_COLOR);
         g2d.draw(tableBounds);
+    }
 
-        for (int i = bounds.getMinX(); i <= bounds.getMaxX(); i++) {
-            for (int j = bounds.getMinY(); j <= bounds.getMaxY(); j++) {
-                if (!cards[i][j].isBlank()) {
-                    int x = xAnchor + (i - bounds.getMinX()) * CardRenderer.CARD_WIDTH;
-                    int y = yAnchor + (j - bounds.getMinY()) * CardRenderer.CARD_WIDTH;
-                    CardRenderer.draw(g2d, cards[i][j], x, y);
-                    if (i == Board.MIDDLE && j == Board.MIDDLE) {
-                        g2d.setColor(new Color(255, 0, 0));
-                        g2d.drawRect(x, y, CardRenderer.CARD_WIDTH, CardRenderer.CARD_WIDTH);
-                    }
-                }
-            }
-        }
+    private Rectangle toScreenCoords(Rectangle tableCoords) {
+        return new Rectangle(
+                tableCoords.x * CardRenderer.CARD_WIDTH,
+                tableCoords.y * CardRenderer.CARD_WIDTH,
+                tableCoords.width * CardRenderer.CARD_WIDTH,
+                tableCoords.height * CardRenderer.CARD_WIDTH);
     }
 
     private int getTableWidth() {
@@ -88,41 +102,34 @@ public class Table extends JPanel implements ComponentListener {
     }
 
     private Rectangle getTableBounds() {
-        int tableWidth = getTableWidth() * CardRenderer.CARD_WIDTH;
-        int tableHeight = getTableHeight() * CardRenderer.CARD_WIDTH;
-
-        int xTileOffset = Board.MIDDLE - xAnchor;
-        int yTileOffset = Board.MIDDLE - yAnchor;
-
-        Dimension boardDim = getBoardDim();
-        int xAnchor = (tableWidth - boardDim.width) / 2;
-        int yAnchor = (tableHeight - boardDim.height) / 2;
-        xAnchor -= (xAnchor % CardRenderer.CARD_WIDTH);
-        yAnchor -= (yAnchor % CardRenderer.CARD_WIDTH);
-
-//        System.out.println(tableWidth + "x" + tableHeight + " - " + cardsAcross + "x" + cardsDown + " - " + cardsWidth + "x" + cardsHeight);
-        return new Rectangle(xAnchor, yAnchor, boardDim.width, boardDim.height);
+        BoardBounds bounds = board.getBounds();
+        return new Rectangle(
+                toTableCoordX(bounds.getMinX()),
+                toTableCoordY(bounds.getMinY()),
+                bounds.getMaxX() - bounds.getMinX() + 1,
+                bounds.getMaxY() - bounds.getMinY() + 1);
     }
 
-    private Dimension getBoardDim() {
-        BoardBounds bounds = board.getBounds();
-        int cardsAcross = bounds.getMaxX() - bounds.getMinX() + 1;
-        int cardsDown = bounds.getMaxY() - bounds.getMinY() + 1;
-        int cardsWidth = cardsAcross * CardRenderer.CARD_WIDTH;
-        int cardsHeight = cardsDown * CardRenderer.CARD_WIDTH;
-        Dimension boardDim = new Dimension(cardsWidth, cardsHeight);
-        return boardDim;
+    /**
+     * Converts a board coordinate to a table coordinate.
+     *
+     * @param x
+     * @return
+     */
+    private int toTableCoordX(int x) {
+        int xTileOffset = Board.MIDDLE - xAnchor;
+        return x - xTileOffset;
+    }
+
+    private int toTableCoordY(int y) {
+        int yTileOffset = Board.MIDDLE - yAnchor;
+        return y - yTileOffset;
     }
 
     @Override
     public void componentResized(ComponentEvent e) {
-//        Rectangle tableBounds = getBounds();
-//        Dimension boardDim = getBoardDim();
-//        Rectangle boardRect = new Rectangle(new Point(xAnchor, yAnchor), boardDim);
-//        if (!tableBounds.contains(boardRect)) {
-//            xAnchor = getWidth() / 2;
-//            yAnchor = getHeight() / 2;
-//        }
+        xAnchor = getTableWidth() / 2;
+        yAnchor = getTableHeight() / 2;
     }
 
     @Override
