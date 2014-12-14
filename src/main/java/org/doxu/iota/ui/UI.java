@@ -1,6 +1,7 @@
 package org.doxu.iota.ui;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -26,9 +27,7 @@ public class UI extends JFrame {
 
     private Table table;
 
-    private List<PlayerPanel> playerPanels;
-
-    private List<Player> players;
+    private JPanel playersPane;
 
     public UI() {
         init();
@@ -38,53 +37,66 @@ public class UI extends JFrame {
         setTitle("iota");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        players = new ArrayList<>();
-
-        players.add(new RandomPlayer());
-        players.add(new SimpleHighPlayer());
-        players.add(new SimpleHighPlayer());
-
-        playerPanels = new ArrayList<>();
-        for (Player player : players) {
-            playerPanels.add(new PlayerPanel(player));
-        }
-
-        game = new Game(players);
+        game = new Game();
         table = new Table(game.getBoard());
 
         JPanel mainPane = new JPanel();
         mainPane.setLayout(new BoxLayout(mainPane, BoxLayout.PAGE_AXIS));
         mainPane.add(table);
-        for (PlayerPanel playerPanel : playerPanels) {
-            mainPane.add(playerPanel);
-        }
+        playersPane = new JPanel();
+        playersPane.setLayout(new BoxLayout(playersPane, BoxLayout.PAGE_AXIS));
+        playersPane.setMinimumSize(new Dimension(500, 200));
+        playersPane.setPreferredSize(new Dimension(500, 200));
+        add(playersPane, BorderLayout.PAGE_END);
         add(mainPane, BorderLayout.CENTER);
         JPanel menu = new MenuPanel(this);
         add(menu, BorderLayout.LINE_END);
 
         setSize(800, 800);
         setLocationRelativeTo(null);
-
     }
 
     private Thread gameThread;
 
-    public void restart() {
-        gameThread = new Thread(new GameRunnable());
+    public void restart(List<String> playerTypes) {
+        List<Player> players = new ArrayList<>();
+        for (String playerType : playerTypes) {
+            switch (playerType) {
+                case "Random":
+                    players.add(new RandomPlayer());
+                    break;
+                case "Simple High":
+                    players.add(new SimpleHighPlayer());
+                    break;
+                default:
+                    throw new IllegalArgumentException("Unknown player type: " + playerType);
+            }
+        }
+        playersPane.removeAll();
+        for (Player player : players) {
+            playersPane.add(new PlayerPanel(player));
+        }
+        playersPane.revalidate();
+        gameThread = new Thread(new GameRunnable(players));
         gameThread.start();
     }
 
     public class GameRunnable implements Runnable {
+        List<Player> players;
+
+        public GameRunnable(List<Player> players) {
+            this.players = players;
+        }
 
         @Override
         public void run() {
-            start();
+            start(players);
         }
 
     }
 
-    public void start() {
-        game.reset(players);
+    public void start(List<Player> players) {
+        game.init(players);
         game.deal();
         game.printHands();
         game.playStartingCard();

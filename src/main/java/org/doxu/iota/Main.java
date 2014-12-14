@@ -16,7 +16,8 @@ public class Main {
         players.add(new SimpleHighPlayer());
         players.add(new SimpleHighPlayer());
 
-        Game game = new Game(players);
+        Game game = new Game();
+        game.init(players);
 //        game.printDeck();
         game.deal();
         game.printHands();

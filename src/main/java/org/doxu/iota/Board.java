@@ -19,34 +19,26 @@ public class Board {
 
     private final Card[][] cards;
 
-    private int minX;
-    private int minY;
-    private int maxX;
-    private int maxY;
-
-    public Board copy() {
-        Board board = new Board(copyCards());
-        board.minX = minX;
-        board.minY = minY;
-        board.maxX = maxX;
-        board.maxY = maxY;
-        return board;
-    }
-
-    private Board(Card[][] cards) {
-        this.cards = cards;
-    }
+    private final BoardBounds bounds;
 
     public Board() {
+        bounds = new BoardBounds();
         cards = new Card[BOARD_SIZE][BOARD_SIZE];
-        reset();
+        init();
     }
 
-    public final void reset() {
-        minX = MIDDLE;
-        minY = MIDDLE;
-        maxX = MIDDLE;
-        maxY = MIDDLE;
+    private Board(Card[][] cards, BoardBounds bounds) {
+        this.cards = cards;
+        this.bounds = bounds;
+    }
+
+    public Board copy() {
+        return new Board(copyCards(), bounds.copy());
+    }
+
+    public final void init() {
+        bounds.init();
+
         for (int x = 0; x < BOARD_SIZE; x++) {
             for (int y = 0; y < BOARD_SIZE; y++) {
                 cards[x][y] = Card.BLANK;
@@ -237,27 +229,12 @@ public class Board {
 
     private void applyCard(Location location, Card card) {
         cards[location.getX()][location.getY()] = card;
-        updateMinMax(location.getX(), location.getY());
-    }
-
-    private void updateMinMax(int x, int y) {
-        if (x < minX) {
-            minX = x;
-        }
-        if (x > maxX) {
-            maxX = x;
-        }
-        if (y < minY) {
-            minY = y;
-        }
-        if (y > maxY) {
-            maxY = y;
-        }
+        bounds.updateMinMax(location.getX(), location.getY());
     }
 
     public void print() {
-        for (int y = minY; y < maxY + 1; y++) {
-            for (int x = minX; x < maxX + 1; x++) {
+        for (int y = bounds.getMinY(); y < bounds.getMaxY() + 1; y++) {
+            for (int x = bounds.getMinX(); x < bounds.getMaxX() + 1; x++) {
                 System.out.print(" " + cards[x][y]);
             }
             System.out.println();
@@ -277,7 +254,7 @@ public class Board {
         return cards;
     }
 
-    public int[] getExtents() {
-        return new int[]{minX, minY, maxX, maxY};
+    public BoardBounds getBounds() {
+        return bounds;
     }
 }

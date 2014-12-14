@@ -19,11 +19,17 @@ public class Deck {
 
     public Deck() {
         cards = new LinkedList<>();
-        reset();
+        init();
     }
 
-    public final void reset() {
+    public final void init() {
         cards.clear();
+        List<Card> set = generateDeck();
+        Collections.shuffle(set);
+        cards.addAll(set);
+    }
+
+    private List<Card> generateDeck() {
         List<Card> set = new ArrayList<>();
         for (Color color : Color.VALID) {
             for (Shape shape : Shape.VALID) {
@@ -33,8 +39,7 @@ public class Deck {
             }
         }
         // TODO add wilcards
-        Collections.shuffle(set);
-        cards.addAll(set);
+        return set;
     }
 
     public boolean hasCards() {
