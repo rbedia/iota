@@ -15,9 +15,15 @@ import org.doxu.iota.attr.Shape;
  */
 public class Deck {
 
-    private final Queue<Card> cards = new LinkedList<>();
+    private final Queue<Card> cards;
 
     public Deck() {
+        cards = new LinkedList<>();
+        reset();
+    }
+
+    public final void reset() {
+        cards.clear();
         List<Card> set = new ArrayList<>();
         for (Color color : Color.VALID) {
             for (Shape shape : Shape.VALID) {

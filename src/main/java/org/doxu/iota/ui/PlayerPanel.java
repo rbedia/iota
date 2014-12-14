@@ -5,7 +5,6 @@ import java.awt.FlowLayout;
 import java.awt.Graphics;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import org.doxu.iota.Game;
 import org.doxu.iota.Player;
 
 /**
@@ -14,8 +13,6 @@ import org.doxu.iota.Player;
  * @author rafael
  */
 public class PlayerPanel extends JPanel {
-
-    private final Game game;
 
     private final Player player;
     
@@ -26,13 +23,12 @@ public class PlayerPanel extends JPanel {
     private static final int NAME_HEIGHT = 40;
     private static final int SCORE_WIDTH = 50;
     private static final int SCORE_HEIGHT = 40;
-    public PlayerPanel(Game game, Player player) {
-        this.game = game;
+    public PlayerPanel(Player player) {
         this.player = player;
         setLayout(new FlowLayout());
         name = new JLabel(player.getDisplayName());
         name.setPreferredSize(new Dimension(NAME_WIDTH, NAME_HEIGHT));
-        Rack rack = new Rack(game, player);
+        Rack rack = new Rack(player);
         score = new JLabel("xxx" + Integer.toString(player.getScore()));
         score.setPreferredSize(new Dimension(SCORE_WIDTH, SCORE_HEIGHT));
         add(name);

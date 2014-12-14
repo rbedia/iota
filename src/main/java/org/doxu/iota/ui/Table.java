@@ -4,8 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import javax.swing.JPanel;
+import org.doxu.iota.Board;
 import org.doxu.iota.Card;
-import org.doxu.iota.Game;
 
 /**
  *
@@ -15,10 +15,10 @@ public class Table extends JPanel {
 
     private static final Color TABLE_COLOR = new Color(153, 186, 132);
 
-    private final Game game;
+    private final Board board;
 
-    public Table(Game game) {
-        this.game = game;
+    public Table(Board board) {
+        this.board = board;
         setBackground(TABLE_COLOR);
     }
 
@@ -28,8 +28,8 @@ public class Table extends JPanel {
         int tableWidth = getWidth();
         int tableHeight = getHeight();
 
-        Card[][] cards = game.getBoard().getCards();
-        int[] extents = game.getBoard().getExtents();
+        Card[][] cards = board.getCards();
+        int[] extents = board.getExtents();
         int cardsAcross = extents[2] - extents[0] + 1;
         int cardsDown = extents[3] - extents[1] + 1;
         int cardsWidth = cardsAcross * CardRenderer.CARD_WIDTH;

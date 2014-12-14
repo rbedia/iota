@@ -38,11 +38,15 @@ public class Board {
     }
 
     public Board() {
+        cards = new Card[BOARD_SIZE][BOARD_SIZE];
+        reset();
+    }
+
+    public final void reset() {
         minX = MIDDLE;
         minY = MIDDLE;
         maxX = MIDDLE;
         maxY = MIDDLE;
-        cards = new Card[BOARD_SIZE][BOARD_SIZE];
         for (int x = 0; x < BOARD_SIZE; x++) {
             for (int y = 0; y < BOARD_SIZE; y++) {
                 cards[x][y] = Card.BLANK;

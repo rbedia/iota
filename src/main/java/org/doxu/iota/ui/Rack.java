@@ -6,7 +6,6 @@ import java.awt.Graphics2D;
 import java.util.List;
 import javax.swing.JPanel;
 import org.doxu.iota.Card;
-import org.doxu.iota.Game;
 import org.doxu.iota.Player;
 
 /**
@@ -16,12 +15,9 @@ import org.doxu.iota.Player;
  */
 public class Rack extends JPanel {
 
-    private final Game game;
-
     private final Player player;
 
-    public Rack(Game game, Player player) {
-        this.game = game;
+    public Rack(Player player) {
         this.player = player;
         Dimension dim = new Dimension((CardRenderer.CARD_WIDTH + CardRenderer.INSET) * 4, CardRenderer.CARD_WIDTH + 5);
         setPreferredSize(dim);

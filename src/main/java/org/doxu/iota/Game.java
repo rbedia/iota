@@ -8,25 +8,27 @@ import java.util.List;
  */
 public class Game {
 
-    private Board board;
+    private final Board board;
 
-    private Deck deck;
+    private final Deck deck;
 
     private List<Player> players;
 
     public Game(List<Player> players) {
+        board = new Board();
+        deck = new Deck();
         reset(players);
     }
 
     public final void reset(List<Player> players) {
-        board = new Board();
-        deck = new Deck();
         this.players = players;
         int index = 1;
         for (Player player : players) {
             PlayerFactory.init(player, index, board);
             index++;
         }
+        board.reset();
+        deck.reset();
     }
 
     public static class PlayerFactory {

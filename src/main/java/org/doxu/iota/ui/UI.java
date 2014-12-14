@@ -46,11 +46,11 @@ public class UI extends JFrame {
 
         playerPanels = new ArrayList<>();
         for (Player player : players) {
-            playerPanels.add(new PlayerPanel(game, player));
+            playerPanels.add(new PlayerPanel(player));
         }
 
         game = new Game(players);
-        table = new Table(game);
+        table = new Table(game.getBoard());
 
         JPanel mainPane = new JPanel();
         mainPane.setLayout(new BoxLayout(mainPane, BoxLayout.PAGE_AXIS));
@@ -70,8 +70,17 @@ public class UI extends JFrame {
     private Thread gameThread;
 
     public void restart() {
-        gameThread = new Thread(new UI.GameRunnable());
+        gameThread = new Thread(new GameRunnable());
         gameThread.start();
+    }
+
+    public class GameRunnable implements Runnable {
+
+        @Override
+        public void run() {
+            start();
+        }
+
     }
 
     public void start() {
@@ -93,15 +102,6 @@ public class UI extends JFrame {
             }
         });
         game.printHands();
-    }
-
-    public class GameRunnable implements Runnable {
-
-        @Override
-        public void run() {
-            start();
-        }
-
     }
 
     public static void main(String[] args) {
