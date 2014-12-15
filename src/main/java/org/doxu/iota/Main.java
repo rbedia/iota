@@ -1,5 +1,7 @@
 package org.doxu.iota;
 
+import org.doxu.iota.player.SimpleHighPlayer;
+import org.doxu.iota.player.RandomPlayer;
 import java.util.ArrayList;
 import java.util.List;
 

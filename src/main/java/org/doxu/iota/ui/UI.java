@@ -12,8 +12,8 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import org.doxu.iota.Game;
 import org.doxu.iota.Player;
-import org.doxu.iota.RandomPlayer;
-import org.doxu.iota.SimpleHighPlayer;
+import org.doxu.iota.player.RandomPlayer;
+import org.doxu.iota.player.SimpleHighPlayer;
 
 /**
  *

@@ -1,9 +1,16 @@
-package org.doxu.iota;
+package org.doxu.iota.player;
 
+import org.doxu.iota.Player;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Random;
+import org.doxu.iota.Board;
+import org.doxu.iota.Card;
+import org.doxu.iota.IllegalLaydownException;
+import org.doxu.iota.Laydown;
+import org.doxu.iota.Location;
+import org.doxu.iota.Move;
 import org.doxu.iota.turn.LaydownTurn;
 import org.doxu.iota.turn.PassTurn;
 import org.doxu.iota.turn.Turn;
