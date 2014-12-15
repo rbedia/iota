@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Random;
+import org.doxu.iota.turn.LaydownTurn;
+import org.doxu.iota.turn.PassTurn;
+import org.doxu.iota.turn.Turn;
 
 /**
  *
@@ -34,7 +37,7 @@ public class SimpleHighPlayer extends Player {
     }
 
     @Override
-    public Laydown turn() {
+    public Turn turn() {
         PriorityQueue<ScoreLaydown> options = new PriorityQueue<>();
         for (Card card : getHand().getCards()) {
             List<Location> locations = collectValidLocations();
@@ -51,9 +54,9 @@ public class SimpleHighPlayer extends Player {
         }
         if (!options.isEmpty()) {
             ScoreLaydown scoreLaydown = options.remove();
-            return scoreLaydown.laydown;
+            return new LaydownTurn(scoreLaydown.laydown, this);
         }
-        return null;
+        return new PassTurn(this);
     }
 
     private List<Location> collectValidLocations() {

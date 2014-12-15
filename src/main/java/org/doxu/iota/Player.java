@@ -1,5 +1,7 @@
 package org.doxu.iota;
 
+import org.doxu.iota.turn.Turn;
+
 /**
  *
  * @author rafael
@@ -16,7 +18,7 @@ public abstract class Player {
         name = "";
     }
 
-    public abstract Laydown turn();
+    public abstract Turn turn();
 
     public Hand getHand() {
         return hand;

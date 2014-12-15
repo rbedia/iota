@@ -2,6 +2,7 @@ package org.doxu.iota;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.doxu.iota.turn.Turn;
 
 /**
  *
@@ -72,6 +73,15 @@ public class Game {
         board.addFirst(first);
     }
 
+    public void pass(Player player) {
+        System.out.println("Player " + player.getDisplayName() + " is passing.");
+        passCount++;
+    }
+
+    public void resetPassCount() {
+        passCount = 0;
+    }
+
     /**
      * Executes one player's turn.
      *
@@ -82,13 +92,9 @@ public class Game {
             return true;
         }
         Player player = players.get(currentPlayer % players.size());
-        Laydown laydown = player.turn();
-        if (laydown == null) {
-            pass(player);
-        } else {
-            laydown(laydown, player);
-            passCount = 0;
-        }
+        Turn turn = player.turn();
+        turn.setGame(this);
+        turn.execute();
         if (passCount == players.size()) {
             System.out.println("Everyone passed. Game over.");
             gameover = true;
@@ -98,11 +104,6 @@ public class Game {
         }
         currentPlayer++;
         return gameover;
-    }
-
-    public void pass(Player player) {
-        System.out.println("Player " + player.getDisplayName() + " is passing.");
-        passCount++;
     }
 
     private boolean isEndOfRound() {
@@ -120,23 +121,6 @@ public class Game {
 
     private int getRound() {
         return (int) Math.floor((currentPlayer + 1) / players.size());
-    }
-
-    private void laydown(Laydown laydown, Player player) {
-        try {
-            // TODO verify that all cards in laydown came from player's hand
-            int score = board.applyLaydown(laydown);
-            player.getHand().remove(laydown.getCards());
-            deal(player);
-            if (player.getHand().isEmpty()) {
-                System.out.println("Player " + player.getDisplayName() + " went out. Score doubled.");
-                score *= 2;
-                gameover = true;
-            }
-            player.addScore(score);
-        } catch (IllegalLaydownException ex) {
-            System.out.println(ex.getMessage());
-        }
     }
 
     public void printDeck() {
