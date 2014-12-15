@@ -22,7 +22,9 @@ public class Main {
         game.deal();
         game.printHands();
         game.playStartingCard();
-        game.play(new NullPlayListener());
+        while(!game.step()) {
+
+        }
         game.printHands();
     }
 

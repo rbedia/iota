@@ -15,6 +15,12 @@ public class Game {
 
     private final List<Player> players;
 
+    private boolean gameover;
+
+    private int currentPlayer;
+
+    private int passCount;
+
     public Game() {
         players = new ArrayList<>();
         board = new Board();
@@ -23,6 +29,9 @@ public class Game {
     }
 
     public final void init(List<Player> newPlayers) {
+        gameover = false;
+        currentPlayer = 0;
+        passCount = 0;
         players.clear();
         players.addAll(newPlayers);
         int index = 1;
@@ -51,7 +60,7 @@ public class Game {
         }
     }
 
-    private void deal(Player player) {
+    public void deal(Player player) {
         Hand hand = player.getHand();
         while (!hand.isFullHand() && deck.hasCards()) {
             hand.add(deck.draw());
@@ -63,51 +72,70 @@ public class Game {
         board.addFirst(first);
     }
 
-    public void play(PlayListener listener) {
-        boolean play = true;
-        int round = 0;
-        while (play) {
-            int passCount = 0;
-            round++;
-            for (Player player : players) {
-                if (player.getHand().getCards().isEmpty()) {
-                    play = false;
-                    break;
-                }
-                Laydown laydown = player.turn();
-                if (laydown == null) {
-                    System.out.println("Player " + player.getDisplayName() + " is passing.");
-                    passCount++;
-                } else {
-                    try {
-                        // TODO verify that all cards in laydown came from player's hand
-                        int score = board.applyLaydown(laydown);
-                        player.getHand().remove(laydown.getCards());
-                        deal(player);
-                        if (player.getHand().isEmpty()) {
-                            System.out.println("Player " + player.getDisplayName() + " went out. Score doubled.");
-                            score *= 2;
-                            play = false;
-                        }
-                        player.addScore(score);
-                    } catch (IllegalLaydownException ex) {
-                        System.out.println(ex.getMessage());
-                    }
-                }
-                listener.turn(player, laydown);
-                if (!play) {
-                    break;
-                }
+    /**
+     * Executes one player's turn.
+     *
+     * @return True if the game is over, false if the game continues.
+     */
+    public boolean step() {
+        if (gameover) {
+            return true;
+        }
+        Player player = players.get(currentPlayer % players.size());
+        Laydown laydown = player.turn();
+        if (laydown == null) {
+            pass(player);
+        } else {
+            laydown(laydown, player);
+            passCount = 0;
+        }
+        if (passCount == players.size()) {
+            System.out.println("Everyone passed. Game over.");
+            gameover = true;
+        }
+        if (isEndOfRound()) {
+            printEndOfRound();
+        }
+        currentPlayer++;
+        return gameover;
+    }
+
+    public void pass(Player player) {
+        System.out.println("Player " + player.getDisplayName() + " is passing.");
+        passCount++;
+    }
+
+    private boolean isEndOfRound() {
+        return currentPlayer % players.size() == players.size() - 1;
+    }
+
+    private void printEndOfRound() {
+        int round = getRound();
+        System.out.println("End of round " + round + ":");
+        for (Player player : players) {
+            System.out.println("   Player " + player.getDisplayName() + ": " + player.getScore());
+        }
+        board.print();
+    }
+
+    private int getRound() {
+        return (int) Math.floor((currentPlayer + 1) / players.size());
+    }
+
+    private void laydown(Laydown laydown, Player player) {
+        try {
+            // TODO verify that all cards in laydown came from player's hand
+            int score = board.applyLaydown(laydown);
+            player.getHand().remove(laydown.getCards());
+            deal(player);
+            if (player.getHand().isEmpty()) {
+                System.out.println("Player " + player.getDisplayName() + " went out. Score doubled.");
+                score *= 2;
+                gameover = true;
             }
-            if (passCount == players.size()) {
-                System.out.println("Everyone passed. Game over.");
-                play = false;
-            }
-            System.out.println("End of round " + round + ":");
-            for (Player player : players) {
-                System.out.println("   Player " + player.getDisplayName() + ": " + player.getScore());
-            }
-            board.print();
+            player.addScore(score);
+        } catch (IllegalLaydownException ex) {
+            System.out.println(ex.getMessage());
         }
     }
 
@@ -137,5 +165,9 @@ public class Game {
 
     public List<Player> getPlayers() {
         return players;
+    }
+
+    public void setGameover(boolean gameover) {
+        this.gameover = gameover;
     }
 }

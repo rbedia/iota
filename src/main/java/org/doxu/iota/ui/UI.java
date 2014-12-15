@@ -11,8 +11,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import org.doxu.iota.Game;
-import org.doxu.iota.Laydown;
-import org.doxu.iota.PlayListener;
 import org.doxu.iota.Player;
 import org.doxu.iota.RandomPlayer;
 import org.doxu.iota.SimpleHighPlayer;
@@ -82,6 +80,7 @@ public class UI extends JFrame {
     }
 
     public class GameRunnable implements Runnable {
+
         List<Player> players;
 
         public GameRunnable(List<Player> players) {
@@ -101,18 +100,15 @@ public class UI extends JFrame {
         game.printHands();
         game.playStartingCard();
         repaint();
-        game.play(new PlayListener() {
-
-            @Override
-            public void turn(Player player, Laydown laydown) {
-                repaint();
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(UI.class.getName()).log(Level.SEVERE, null, ex);
-                }
+        while (!game.step()) {
+            repaint();
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(UI.class.getName()).log(Level.SEVERE, null, ex);
             }
-        });
+        }
+        repaint();
         game.printHands();
     }
 
