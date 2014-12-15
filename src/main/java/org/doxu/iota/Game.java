@@ -4,10 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import org.doxu.iota.turn.Turn;
 
-/**
- *
- * @author rafael
- */
 public class Game {
 
     private final Board board;

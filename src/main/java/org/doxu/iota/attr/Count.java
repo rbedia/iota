@@ -1,9 +1,5 @@
 package org.doxu.iota.attr;
 
-/**
- *
- * @author rafael
- */
 public enum Count implements Attribute {
 
     BLANK(-1), ONE(0), TWO(1), THREE(2), FOUR(3);

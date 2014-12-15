@@ -15,10 +15,6 @@ import org.doxu.iota.Player;
 import org.doxu.iota.player.RandomPlayer;
 import org.doxu.iota.player.SimpleHighPlayer;
 
-/**
- *
- * @author rafael
- */
 public class UI extends JFrame {
 
     private Game game;

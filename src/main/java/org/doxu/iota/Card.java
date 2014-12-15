@@ -6,10 +6,6 @@ import org.doxu.iota.attr.Color;
 import org.doxu.iota.attr.Count;
 import org.doxu.iota.attr.Shape;
 
-/**
- *
- * @author rafael
- */
 public class Card {
 
     private final Color color;

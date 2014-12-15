@@ -4,10 +4,6 @@ import java.util.List;
 import org.doxu.iota.Card;
 import org.doxu.iota.IllegalLaydownException;
 
-/**
- *
- * @author rafael
- */
 public class LotValidator {
 
     private static final boolean[] LOOKUP_3_CARD = {

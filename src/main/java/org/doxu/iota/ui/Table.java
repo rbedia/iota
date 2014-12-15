@@ -12,10 +12,6 @@ import org.doxu.iota.Board;
 import org.doxu.iota.BoardBounds;
 import org.doxu.iota.Card;
 
-/**
- *
- * @author rafael
- */
 public class Table extends JPanel implements ComponentListener {
 
     private static final Color TABLE_COLOR = new Color(153, 186, 132);

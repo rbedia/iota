@@ -4,10 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- *
- * @author rafael
- */
 public class Hand {
 
     public static final int MAX_HAND = 4;

@@ -5,10 +5,6 @@ import org.doxu.iota.player.RandomPlayer;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author rafael
- */
 public class Main {
 
     public void start() {

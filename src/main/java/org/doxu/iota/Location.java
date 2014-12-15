@@ -1,9 +1,5 @@
 package org.doxu.iota;
 
-/**
- *
- * @author rafael
- */
 public class Location {
 
     private final int x;

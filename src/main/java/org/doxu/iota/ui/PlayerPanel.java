@@ -9,8 +9,6 @@ import org.doxu.iota.Player;
 
 /**
  * Display for a player.
- *
- * @author rafael
  */
 public class PlayerPanel extends JPanel {
 

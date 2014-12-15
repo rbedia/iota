@@ -4,10 +4,6 @@ import org.doxu.iota.IllegalLaydownException;
 import org.doxu.iota.Laydown;
 import org.doxu.iota.Player;
 
-/**
- *
- * @author rafael
- */
 public class LaydownTurn extends BaseTurn {
 
     private final Laydown laydown;

@@ -14,8 +14,6 @@ import org.doxu.iota.Move;
  * This utility figures out how many cards are valid to go into a row that
  * already has two cards in it. This can be used to calculate the probability of
  * getting a card that will play in that particular location.
- *
- * @author rafael
  */
 public class LotProbabilityGenerator {
 

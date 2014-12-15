@@ -15,10 +15,6 @@ import org.doxu.iota.turn.LaydownTurn;
 import org.doxu.iota.turn.PassTurn;
 import org.doxu.iota.turn.Turn;
 
-/**
- *
- * @author rafael
- */
 public class SimpleHighPlayer extends Player {
 
     private final Random random = new Random();

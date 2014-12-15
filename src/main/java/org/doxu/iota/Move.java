@@ -1,9 +1,5 @@
 package org.doxu.iota;
 
-/**
- *
- * @author rafael
- */
 public class Move {
 
     private final Location location;

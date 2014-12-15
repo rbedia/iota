@@ -4,10 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- *
- * @author rafael
- */
 public class Laydown {
     private final List<Move> moves;
 

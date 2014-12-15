@@ -17,11 +17,6 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-/**
- *
- *
- * @author rafael
- */
 public class MenuPanel extends JPanel {
 
     private static final int MAX_PLAYERS = 4;

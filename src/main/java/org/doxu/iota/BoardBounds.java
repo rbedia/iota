@@ -2,8 +2,6 @@ package org.doxu.iota;
 
 /**
  * Contains the bounds of the board that are being used by cards.
- *
- * @author rafael
  */
 public class BoardBounds {
 

@@ -7,10 +7,6 @@ import java.util.List;
 import java.util.Set;
 import org.doxu.iota.attr.LotValidator;
 
-/**
- *
- * @author rafael
- */
 public class Board {
 
     public static final int BOARD_SIZE = 127;

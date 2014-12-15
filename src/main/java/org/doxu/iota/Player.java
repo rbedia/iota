@@ -2,10 +2,6 @@ package org.doxu.iota;
 
 import org.doxu.iota.turn.Turn;
 
-/**
- *
- * @author rafael
- */
 public abstract class Player {
 
     private String name;

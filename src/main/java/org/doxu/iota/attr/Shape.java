@@ -1,15 +1,5 @@
 package org.doxu.iota.attr;
 
-import static org.doxu.iota.attr.Color.BLANK;
-import static org.doxu.iota.attr.Color.BLUE;
-import static org.doxu.iota.attr.Color.GREEN;
-import static org.doxu.iota.attr.Color.RED;
-import static org.doxu.iota.attr.Color.YELLOW;
-
-/**
- *
- * @author rafael
- */
 public enum Shape implements Attribute {
 
     BLANK(-1), CIRCLE(0), SQUARE(1), TRIANGLE(2), CROSS(3);

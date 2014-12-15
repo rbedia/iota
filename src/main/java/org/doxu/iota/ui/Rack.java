@@ -10,8 +10,6 @@ import org.doxu.iota.Player;
 
 /**
  * Display for a player's available cards.
- *
- * @author rafael
  */
 public class Rack extends JPanel {
 

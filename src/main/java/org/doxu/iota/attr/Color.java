@@ -1,9 +1,5 @@
 package org.doxu.iota.attr;
 
-/**
- *
- * @author rafael
- */
 public enum Color implements Attribute {
 
     BLANK(-1), YELLOW(0), GREEN(1), RED(2), BLUE(3);

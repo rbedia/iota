@@ -5,10 +5,6 @@ import java.awt.Graphics2D;
 import java.awt.geom.GeneralPath;
 import org.doxu.iota.Card;
 
-/**
- *
- * @author rafael
- */
 public class CardRenderer {
 
     public static final int CARD_WIDTH = 24;
