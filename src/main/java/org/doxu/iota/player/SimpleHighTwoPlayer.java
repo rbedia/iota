@@ -4,7 +4,6 @@ import org.doxu.iota.Player;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.PriorityQueue;
-import java.util.Random;
 import org.doxu.iota.Board;
 import org.doxu.iota.Card;
 import org.doxu.iota.IllegalLaydownException;
@@ -16,8 +15,6 @@ import org.doxu.iota.turn.PassTurn;
 import org.doxu.iota.turn.Turn;
 
 public class SimpleHighTwoPlayer extends Player {
-
-    private final Random random = new Random();
 
     private class ScoreLaydown implements Comparable<ScoreLaydown> {
 
@@ -59,7 +56,7 @@ public class SimpleHighTwoPlayer extends Player {
         for (ScoreLaydown scoreLaydown : options1) {
             for (Card card : getHand().getCards()) {
                 if (card != scoreLaydown.laydown.getCards().get(0)) {
-                    List<Location> locations = collectValidLocations(getBoard(), scoreLaydown.laydown.getMoves().get(0).getLocation());
+                    List<Location> locations = collectValidLocations(scoreLaydown.laydown.getMoves().get(0).getLocation());
                     for (Location location : locations) {
                         Laydown laydown = scoreLaydown.laydown.copy();
                         laydown.addMove(new Move(location, card));
@@ -95,29 +92,29 @@ public class SimpleHighTwoPlayer extends Player {
         return locations;
     }
 
-    private List<Location> collectValidLocations(Board board, Location startingLocation) {
+    private List<Location> collectValidLocations(Location startingLocation) {
         List<Location> locations = new ArrayList<>();
         // Search left
         Location location = startingLocation.moveLeft();
-        while (board.isOverlappingCard(location)) {
+        while (getBoard().isOverlappingCard(location)) {
             location = location.moveLeft();
         }
         locations.add(location);
         // Search right
         location = startingLocation.moveRight();
-        while (board.isOverlappingCard(location)) {
+        while (getBoard().isOverlappingCard(location)) {
             location = location.moveRight();
         }
         locations.add(location);
         // Search up
         location = startingLocation.moveUp();
-        while (board.isOverlappingCard(location)) {
+        while (getBoard().isOverlappingCard(location)) {
             location = location.moveUp();
         }
         locations.add(location);
         // Search down
         location = startingLocation.moveDown();
-        while (board.isOverlappingCard(location)) {
+        while (getBoard().isOverlappingCard(location)) {
             location = location.moveDown();
         }
         locations.add(location);

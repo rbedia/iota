@@ -4,7 +4,6 @@ import org.doxu.iota.Player;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.PriorityQueue;
-import java.util.Random;
 import org.doxu.iota.Board;
 import org.doxu.iota.Card;
 import org.doxu.iota.IllegalLaydownException;
@@ -16,8 +15,6 @@ import org.doxu.iota.turn.PassTurn;
 import org.doxu.iota.turn.Turn;
 
 public class SimpleHighPlayer extends Player {
-
-    private final Random random = new Random();
 
     private class ScoreLaydown implements Comparable<ScoreLaydown> {
 
@@ -44,8 +41,7 @@ public class SimpleHighPlayer extends Player {
         PriorityQueue<ScoreLaydown> options = new PriorityQueue<>();
         for (Card card : getHand().getCards()) {
             List<Location> locations = collectValidLocations();
-            while (!locations.isEmpty()) {
-                Location location = locations.remove(random.nextInt(locations.size()));
+            for (Location location : locations) {
                 Laydown laydown = new Laydown();
                 laydown.addMove(new Move(location, card));
                 try {
