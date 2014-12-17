@@ -43,7 +43,6 @@ public class Game {
     public static class PlayerFactory {
 
         public static void init(Player player, int index, Board board) {
-            player.setHand(new Hand());
             player.setBoard(board);
             player.setIndex(index);
         }

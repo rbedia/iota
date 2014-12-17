@@ -6,22 +6,19 @@ public abstract class Player {
 
     private String name;
     private int index;
-    private Hand hand;
+    private final Hand hand;
     private Board board;
     private int score;
 
     public Player() {
         name = "";
+        hand = new Hand();
     }
 
     public abstract Turn turn();
 
     public Hand getHand() {
         return hand;
-    }
-
-    public void setHand(Hand hand) {
-        this.hand = hand;
     }
 
     public Board getBoard() {
