@@ -11,8 +11,16 @@ public class Laydown {
         moves = new ArrayList<>();
     }
 
+    private Laydown(List<Move> moves) {
+        this.moves = moves;
+    }
+
     public void addMove(Move move) {
         moves.add(move);
+    }
+
+    public Laydown copy() {
+        return new Laydown(new ArrayList<>(moves));
     }
 
     public List<Move> getMoves() {
