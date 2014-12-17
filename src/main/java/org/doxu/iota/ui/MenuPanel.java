@@ -88,8 +88,8 @@ public class MenuPanel extends JPanel {
     }
 
     public JComboBox createPlayerCombo() {
-        JComboBox combo = new JComboBox(new String[]{"Simple High", "Random"});
-        combo.setMaximumSize(new Dimension(100, 30));
+        JComboBox combo = new JComboBox(new String[]{"Simple High 2", "Simple High", "Random"});
+        combo.setMaximumSize(new Dimension(120, 30));
         return combo;
     }
 }

@@ -14,6 +14,7 @@ import org.doxu.iota.Game;
 import org.doxu.iota.Player;
 import org.doxu.iota.player.RandomPlayer;
 import org.doxu.iota.player.SimpleHighPlayer;
+import org.doxu.iota.player.SimpleHighTwoPlayer;
 
 public class UI extends JFrame {
 
@@ -61,6 +62,9 @@ public class UI extends JFrame {
                     break;
                 case "Simple High":
                     players.add(new SimpleHighPlayer());
+                    break;
+                case "Simple High 2":
+                    players.add(new SimpleHighTwoPlayer());
                     break;
                 default:
                     throw new IllegalArgumentException("Unknown player type: " + playerType);
