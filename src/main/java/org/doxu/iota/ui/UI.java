@@ -13,6 +13,7 @@ import javax.swing.SwingUtilities;
 import org.doxu.iota.Game;
 import org.doxu.iota.Player;
 import org.doxu.iota.player.RandomPlayer;
+import org.doxu.iota.player.SimpleHighFourPlayer;
 import org.doxu.iota.player.SimpleHighPlayer;
 import org.doxu.iota.player.SimpleHighThreePlayer;
 import org.doxu.iota.player.SimpleHighTwoPlayer;
@@ -69,6 +70,9 @@ public class UI extends JFrame {
                     break;
                 case "Simple High 3":
                     players.add(new SimpleHighThreePlayer());
+                    break;
+                case "Simple High 4":
+                    players.add(new SimpleHighFourPlayer());
                     break;
                 default:
                     throw new IllegalArgumentException("Unknown player type: " + playerType);

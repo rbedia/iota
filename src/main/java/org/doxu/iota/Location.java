@@ -33,4 +33,44 @@ public class Location {
     public int getY() {
         return y;
     }
+
+    public static Location getLeftmost(Location... locations) {
+        Location loc = locations[0];
+        for (int i = 1; i < locations.length; i++) {
+            if (locations[i].getX() < loc.getX()) {
+                loc = locations[i];
+            }
+        }
+        return loc;
+    }
+
+    public static Location getRightmost(Location... locations) {
+        Location loc = locations[0];
+        for (int i = 1; i < locations.length; i++) {
+            if (locations[i].getX() > loc.getX()) {
+                loc = locations[i];
+            }
+        }
+        return loc;
+    }
+
+    public static Location getTopmost(Location... locations) {
+        Location loc = locations[0];
+        for (int i = 1; i < locations.length; i++) {
+            if (locations[i].getY() < loc.getY()) {
+                loc = locations[i];
+            }
+        }
+        return loc;
+    }
+
+    public static Location getBottommost(Location... locations) {
+        Location loc = locations[0];
+        for (int i = 1; i < locations.length; i++) {
+            if (locations[i].getY() > loc.getY()) {
+                loc = locations[i];
+            }
+        }
+        return loc;
+    }
 }
