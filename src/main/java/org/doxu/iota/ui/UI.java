@@ -42,14 +42,14 @@ public class UI extends JFrame {
         mainPane.add(table);
         playersPane = new JPanel();
         playersPane.setLayout(new BoxLayout(playersPane, BoxLayout.PAGE_AXIS));
-        playersPane.setMinimumSize(new Dimension(500, 200));
-        playersPane.setPreferredSize(new Dimension(500, 200));
+        playersPane.setMinimumSize(new Dimension(500, 180));
+        playersPane.setPreferredSize(new Dimension(500, 180));
         add(playersPane, BorderLayout.PAGE_END);
         add(mainPane, BorderLayout.CENTER);
         JPanel menu = new MenuPanel(this);
         add(menu, BorderLayout.LINE_END);
 
-        setSize(800, 800);
+        setSize(850, 850);
         setLocationRelativeTo(null);
     }
 
