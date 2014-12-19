@@ -4,7 +4,6 @@ import org.doxu.iota.Player;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.PriorityQueue;
-import org.doxu.iota.Board;
 import org.doxu.iota.Card;
 import org.doxu.iota.IllegalLaydownException;
 import org.doxu.iota.Laydown;
@@ -16,22 +15,6 @@ import org.doxu.iota.turn.Turn;
 
 public class SimpleHighThreePlayer extends Player {
 
-    private class ScoreLaydown implements Comparable<ScoreLaydown> {
-
-        int score;
-        Laydown laydown;
-
-        public ScoreLaydown(int score, Laydown laydown) {
-            this.score = score;
-            this.laydown = laydown;
-        }
-
-        @Override
-        public int compareTo(ScoreLaydown o) {
-            return o.score == score ? 0 : o.score < score ? -1 : 1;
-        }
-    }
-
     public SimpleHighThreePlayer() {
         setName("simple high three");
     }
@@ -40,7 +23,7 @@ public class SimpleHighThreePlayer extends Player {
     public Turn turn() {
         List<ScoreLaydown> options1 = new ArrayList<>();
         for (Card card : getHand().getCards()) {
-            List<Location> locations = collectValidLocations();
+            List<Location> locations = SimpleHighCommon.collectValidLocations(getBoard());
             while (!locations.isEmpty()) {
                 Location location = locations.remove(0);
                 Laydown laydown = new Laydown();
@@ -97,19 +80,6 @@ public class SimpleHighThreePlayer extends Player {
             return new LaydownTurn(scoreLaydown.laydown, this);
         }
         return new PassTurn(this);
-    }
-
-    private List<Location> collectValidLocations() {
-        List<Location> locations = new ArrayList<>();
-        for (int x = 0; x < Board.BOARD_SIZE; x++) {
-            for (int y = 0; y < Board.BOARD_SIZE; y++) {
-                Location location = new Location(x, y);
-                if (!getBoard().isOverlappingCard(location) && getBoard().isTouchingBoard(location)) {
-                    locations.add(location);
-                }
-            }
-        }
-        return locations;
     }
 
     private List<Location> collectValidLocations(Location startingLocation) {
