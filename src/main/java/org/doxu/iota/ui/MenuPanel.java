@@ -3,6 +3,7 @@ package org.doxu.iota.ui;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.Box;
@@ -30,6 +31,7 @@ public class MenuPanel extends JPanel {
     public MenuPanel(final UI ui) {
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         start = new JButton("Start");
+        start.setMnemonic(KeyEvent.VK_S);
         start.addActionListener(new ActionListener() {
 
             @Override
