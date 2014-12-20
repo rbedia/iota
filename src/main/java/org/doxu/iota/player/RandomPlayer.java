@@ -12,6 +12,7 @@ import org.doxu.iota.Location;
 import org.doxu.iota.Move;
 import org.doxu.iota.turn.LaydownTurn;
 import org.doxu.iota.turn.PassTurn;
+import org.doxu.iota.turn.TradeTurn;
 import org.doxu.iota.turn.Turn;
 
 public class RandomPlayer extends Player {
@@ -34,13 +35,25 @@ public class RandomPlayer extends Player {
                     getBoard().validLaydown(laydown);
                     return new LaydownTurn(laydown, this);
                 } catch (IllegalLaydownException ex) {
-//                    System.out.println(ex.getMessage());
-//                    getBoard().print();
-//                Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
-        return new PassTurn(this);
+        return basicTrade();
+    }
+
+    private Turn basicTrade() {
+        int deckCount = getDeck().count();
+        int handCount = getHand().getCards().size();
+        int count = Math.min(deckCount, handCount);
+        List<Card> tradeCards = new ArrayList<>();
+        for (int i = 0; i < count; i++) {
+            tradeCards.add(getHand().getCards().get(i));
+        }
+        if (tradeCards.size() > 0) {
+            return new TradeTurn(tradeCards, this);
+        } else {
+            return new PassTurn(this);
+        }
     }
 
     private List<Location> collectValidLocations() {

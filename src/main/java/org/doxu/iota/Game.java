@@ -33,7 +33,7 @@ public class Game {
         players.addAll(newPlayers);
         int index = 1;
         for (Player player : players) {
-            PlayerFactory.init(player, index, board);
+            PlayerFactory.init(player, index, board, deck);
             index++;
         }
         board.init();
@@ -42,9 +42,10 @@ public class Game {
 
     public static class PlayerFactory {
 
-        public static void init(Player player, int index, Board board) {
+        public static void init(Player player, int index, Board board, Deck deck) {
             player.setBoard(board);
             player.setIndex(index);
+            player.setDeck(deck);
         }
     }
 
@@ -140,6 +141,10 @@ public class Game {
 
     public Board getBoard() {
         return board;
+    }
+
+    public Deck getDeck() {
+        return deck;
     }
 
     public List<Player> getPlayers() {

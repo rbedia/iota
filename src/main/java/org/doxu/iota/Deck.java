@@ -42,8 +42,16 @@ public class Deck {
         return !cards.isEmpty();
     }
 
+    public int count() {
+        return cards.size();
+    }
+
     public Card draw() {
         return cards.remove();
+    }
+
+    public void addToBottom(List<Card> newCards) {
+        cards.addAll(newCards);
     }
 
     public List<Card> getCards() {

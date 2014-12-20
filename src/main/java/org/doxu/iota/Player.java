@@ -8,6 +8,7 @@ public abstract class Player {
     private int index;
     private final Hand hand;
     private Board board;
+    private Deck deck;
     private int score;
 
     public Player() {
@@ -27,6 +28,14 @@ public abstract class Player {
 
     public void setBoard(Board board) {
         this.board = board;
+    }
+
+    public Deck getDeck() {
+        return deck;
+    }
+
+    public void setDeck(Deck deck) {
+        this.deck = deck;
     }
 
     public void addScore(int moveScore) {
