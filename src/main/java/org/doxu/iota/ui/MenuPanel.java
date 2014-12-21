@@ -57,10 +57,10 @@ public class MenuPanel extends JPanel {
         JPanel playerSelector = new JPanel();
         playerSelector.add(new JLabel("Players:"));
         playerSelector.add(spinner);
+        add(start);
         add(playerSelector);
         add(playerPanel);
         add(Box.createGlue());
-        add(start);
     }
 
     private void setVisiablePlayers(int players) {

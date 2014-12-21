@@ -18,9 +18,10 @@ public class PlayerPanel extends JPanel {
     private final JLabel score;
 
     private static final int NAME_WIDTH = 150;
-    private static final int NAME_HEIGHT = 40;
+    private static final int NAME_HEIGHT = 35;
     private static final int SCORE_WIDTH = 50;
-    private static final int SCORE_HEIGHT = 40;
+    private static final int SCORE_HEIGHT = 35;
+
     public PlayerPanel(Player player) {
         this.player = player;
         setLayout(new FlowLayout());
