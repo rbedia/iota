@@ -1,18 +1,14 @@
 package org.doxu.iota.player;
 
 import org.doxu.iota.Player;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import org.doxu.iota.Board;
 import org.doxu.iota.Card;
 import org.doxu.iota.IllegalLaydownException;
 import org.doxu.iota.Laydown;
 import org.doxu.iota.Location;
 import org.doxu.iota.Move;
 import org.doxu.iota.turn.LaydownTurn;
-import org.doxu.iota.turn.PassTurn;
-import org.doxu.iota.turn.TradeTurn;
 import org.doxu.iota.turn.Turn;
 
 public class RandomPlayer extends Player {
@@ -26,7 +22,7 @@ public class RandomPlayer extends Player {
     @Override
     public Turn turn() {
         for (Card card : getHand().getCards()) {
-            List<Location> locations = collectValidLocations();
+            List<Location> locations = SimpleHighCommon.collectValidLocations(getBoard());
             while (!locations.isEmpty()) {
                 Location location = locations.remove(random.nextInt(locations.size()));
                 Laydown laydown = new Laydown();
@@ -38,34 +34,6 @@ public class RandomPlayer extends Player {
                 }
             }
         }
-        return basicTrade();
-    }
-
-    private Turn basicTrade() {
-        int deckCount = getDeck().count();
-        int handCount = getHand().getCards().size();
-        int count = Math.min(deckCount, handCount);
-        List<Card> tradeCards = new ArrayList<>();
-        for (int i = 0; i < count; i++) {
-            tradeCards.add(getHand().getCards().get(i));
-        }
-        if (tradeCards.size() > 0) {
-            return new TradeTurn(tradeCards, this);
-        } else {
-            return new PassTurn(this);
-        }
-    }
-
-    private List<Location> collectValidLocations() {
-        List<Location> locations = new ArrayList<>();
-        for (int x = 0; x < Board.BOARD_SIZE; x++) {
-            for (int y = 0; y < Board.BOARD_SIZE; y++) {
-                Location location = new Location(x, y);
-                if (!getBoard().isOverlappingCard(location) && getBoard().isTouchingBoard(location)) {
-                    locations.add(location);
-                }
-            }
-        }
-        return locations;
+        return SimpleHighCommon.basicTrade(getDeck(), getHand(), this);
     }
 }

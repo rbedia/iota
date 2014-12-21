@@ -9,7 +9,6 @@ import org.doxu.iota.Laydown;
 import org.doxu.iota.Location;
 import org.doxu.iota.Move;
 import org.doxu.iota.turn.LaydownTurn;
-import org.doxu.iota.turn.PassTurn;
 import org.doxu.iota.turn.Turn;
 
 public class SimpleHighPlayer extends Player {
@@ -37,6 +36,6 @@ public class SimpleHighPlayer extends Player {
             ScoreLaydown scoreLaydown = options.remove();
             return new LaydownTurn(scoreLaydown.laydown, this);
         }
-        return new PassTurn(this);
+        return SimpleHighCommon.basicTrade(getDeck(), getHand(), this);
     }
 }

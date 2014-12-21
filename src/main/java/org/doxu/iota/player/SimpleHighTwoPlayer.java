@@ -10,7 +10,6 @@ import org.doxu.iota.Laydown;
 import org.doxu.iota.Location;
 import org.doxu.iota.Move;
 import org.doxu.iota.turn.LaydownTurn;
-import org.doxu.iota.turn.PassTurn;
 import org.doxu.iota.turn.Turn;
 
 public class SimpleHighTwoPlayer extends Player {
@@ -39,7 +38,7 @@ public class SimpleHighTwoPlayer extends Player {
         for (ScoreLaydown scoreLaydown : options1) {
             for (Card card : getHand().getCards()) {
                 if (card != scoreLaydown.laydown.getCards().get(0)) {
-                    List<Location> locations = collectValidLocations(scoreLaydown.laydown.getMoves().get(0).getLocation());
+                    List<Location> locations = SimpleHighCommon.collectValidLocations(getBoard(), scoreLaydown.laydown.getMoves().get(0).getLocation());
                     for (Location location : locations) {
                         Laydown laydown = scoreLaydown.laydown.copy();
                         laydown.addMove(new Move(location, card));
@@ -59,36 +58,6 @@ public class SimpleHighTwoPlayer extends Player {
             ScoreLaydown scoreLaydown = options.remove();
             return new LaydownTurn(scoreLaydown.laydown, this);
         }
-        return new PassTurn(this);
-    }
-
-    private List<Location> collectValidLocations(Location startingLocation) {
-        List<Location> locations = new ArrayList<>();
-        // Search left
-        Location location = startingLocation.moveLeft();
-        while (getBoard().isOverlappingCard(location)) {
-            location = location.moveLeft();
-        }
-        locations.add(location);
-        // Search right
-        location = startingLocation.moveRight();
-        while (getBoard().isOverlappingCard(location)) {
-            location = location.moveRight();
-        }
-        locations.add(location);
-        // Search up
-        location = startingLocation.moveUp();
-        while (getBoard().isOverlappingCard(location)) {
-            location = location.moveUp();
-        }
-        locations.add(location);
-        // Search down
-        location = startingLocation.moveDown();
-        while (getBoard().isOverlappingCard(location)) {
-            location = location.moveDown();
-        }
-        locations.add(location);
-
-        return locations;
+        return SimpleHighCommon.basicTrade(getDeck(), getHand(), this);
     }
 }
