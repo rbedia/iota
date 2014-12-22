@@ -6,6 +6,8 @@ public class ScoreLaydown implements Comparable<ScoreLaydown> {
     public final int score;
     public final Laydown laydown;
 
+    public static final ScoreLaydown NO_SCORE = new ScoreLaydown(0, new Laydown());
+
     public ScoreLaydown(int score, Laydown laydown) {
         this.score = score;
         this.laydown = laydown;

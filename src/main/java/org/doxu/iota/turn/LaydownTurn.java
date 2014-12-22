@@ -4,6 +4,7 @@ import org.doxu.iota.Hand;
 import org.doxu.iota.IllegalLaydownException;
 import org.doxu.iota.Laydown;
 import org.doxu.iota.Player;
+import org.doxu.iota.player.ScoreLaydown;
 
 public class LaydownTurn extends BaseTurn {
 
@@ -36,6 +37,7 @@ public class LaydownTurn extends BaseTurn {
             }
             player.addScore(score);
             game.resetPassCount();
+            setTurnLog(new ScoreLaydown(score, laydown));
         } catch (IllegalLaydownException ex) {
             System.out.println(ex.getMessage());
         }

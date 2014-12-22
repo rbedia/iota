@@ -20,6 +20,7 @@ public class TradeTurn extends BaseTurn {
     }
 
     public void tradeCards(List<Card> cards, Player player) {
+        setNoScoreLog();
         for (Card card : cards) {
             if (!player.getHand().getCards().contains(card)) {
                 return;

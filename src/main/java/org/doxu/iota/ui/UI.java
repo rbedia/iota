@@ -9,6 +9,8 @@ import java.util.logging.Logger;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import org.doxu.iota.Game;
 import org.doxu.iota.Player;
@@ -26,6 +28,8 @@ public class UI extends JFrame {
 
     private JPanel playersPane;
 
+    private JTable logTable;
+
     public UI() {
         init();
     }
@@ -37,15 +41,19 @@ public class UI extends JFrame {
         game = new Game();
         table = new Table(game.getBoard());
 
-        JPanel mainPane = new JPanel();
-        mainPane.setLayout(new BoxLayout(mainPane, BoxLayout.PAGE_AXIS));
-        mainPane.add(table);
         playersPane = new JPanel();
         playersPane.setLayout(new BoxLayout(playersPane, BoxLayout.PAGE_AXIS));
-        playersPane.setMinimumSize(new Dimension(400, 160));
         playersPane.setPreferredSize(new Dimension(400, 160));
-        add(playersPane, BorderLayout.LINE_END);
-        add(mainPane, BorderLayout.CENTER);
+        JPanel sidePane = new JPanel();
+        sidePane.setLayout(new BoxLayout(sidePane, BoxLayout.PAGE_AXIS));
+        sidePane.add(playersPane);
+        logTable = new JTable(new GameLogModel(game));
+        logTable.setPreferredScrollableViewportSize(new Dimension(400, 600));
+        logTable.setFillsViewportHeight(true);
+        JScrollPane logTableScroll = new JScrollPane(logTable);
+        sidePane.add(logTableScroll);
+        add(sidePane, BorderLayout.LINE_END);
+        add(table, BorderLayout.CENTER);
         JPanel menu = new MenuPanel(this);
         add(menu, BorderLayout.LINE_START);
 
@@ -104,6 +112,7 @@ public class UI extends JFrame {
 
     public void start(List<Player> players) {
         game.init(players);
+        ((GameLogModel) logTable.getModel()).init();
         game.deal();
         game.printHands();
         game.playStartingCard();

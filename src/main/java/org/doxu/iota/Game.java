@@ -2,6 +2,7 @@ package org.doxu.iota;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.doxu.iota.player.ScoreLaydown;
 import org.doxu.iota.turn.Turn;
 
 public class Game {
@@ -17,6 +18,8 @@ public class Game {
     private int currentPlayer;
 
     private int passCount;
+
+    private GameLog gameLog;
 
     public Game() {
         players = new ArrayList<>();
@@ -38,6 +41,7 @@ public class Game {
         }
         board.init();
         deck.init();
+        gameLog = new GameLog(players.size());
     }
 
     public static class PlayerFactory {
@@ -91,6 +95,8 @@ public class Game {
         Turn turn = player.turn();
         turn.setGame(this);
         turn.execute();
+        ScoreLaydown scoreLog = turn.log();
+        gameLog.addLaydown(scoreLog);
         if (passCount == players.size()) {
             System.out.println("Everyone passed. Game over.");
             gameover = true;
@@ -153,5 +159,9 @@ public class Game {
 
     public void setGameover(boolean gameover) {
         this.gameover = gameover;
+    }
+
+    public GameLog getGameLog() {
+        return gameLog;
     }
 }

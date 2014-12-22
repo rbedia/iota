@@ -11,6 +11,7 @@ public class PassTurn extends BaseTurn {
     @Override
     public void execute() {
         game.pass(player);
+        setNoScoreLog();
     }
 
 }
