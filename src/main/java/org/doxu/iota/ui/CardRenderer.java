@@ -27,6 +27,39 @@ public class CardRenderer {
     private static final Color YELLOW_COLOR = new Color(243, 247, 12);
     private static final Color WHITE_COLOR = new Color(255, 255, 255);
 
+    private static final GeneralPath CROSS_PATH = new GeneralPath();
+
+    private static final GeneralPath TRIANGLE_PATH = new GeneralPath();
+
+    static {
+        // top
+        CROSS_PATH.moveTo(CARD_WIDTH / 2 - CROSS_WIDTH / 2, INSET);
+        CROSS_PATH.lineTo(CARD_WIDTH / 2 + CROSS_WIDTH / 2, INSET);
+        // right top inside
+        CROSS_PATH.lineTo(CARD_WIDTH / 2 + CROSS_WIDTH / 2, CARD_WIDTH / 2 - CROSS_WIDTH / 2);
+        // right
+        CROSS_PATH.lineTo(CARD_WIDTH - INSET, CARD_WIDTH / 2 - CROSS_WIDTH / 2);
+        CROSS_PATH.lineTo(CARD_WIDTH - INSET, CARD_WIDTH / 2 + CROSS_WIDTH / 2);
+        // right bottom inside
+        CROSS_PATH.lineTo(CARD_WIDTH / 2 + CROSS_WIDTH / 2, CARD_WIDTH / 2 + CROSS_WIDTH / 2);
+        // bottom
+        CROSS_PATH.lineTo(CARD_WIDTH / 2 + CROSS_WIDTH / 2, CARD_WIDTH - INSET);
+        CROSS_PATH.lineTo(CARD_WIDTH / 2 - CROSS_WIDTH / 2, CARD_WIDTH - INSET);
+        // left bottom inside
+        CROSS_PATH.lineTo(CARD_WIDTH / 2 - CROSS_WIDTH / 2, CARD_WIDTH / 2 + CROSS_WIDTH / 2);
+        // left
+        CROSS_PATH.lineTo(INSET, CARD_WIDTH / 2 + CROSS_WIDTH / 2);
+        CROSS_PATH.lineTo(INSET, CARD_WIDTH / 2 - CROSS_WIDTH / 2);
+        // left top inside
+        CROSS_PATH.lineTo(CARD_WIDTH / 2 - CROSS_WIDTH / 2, CARD_WIDTH / 2 - CROSS_WIDTH / 2);
+        CROSS_PATH.closePath();
+
+        TRIANGLE_PATH.moveTo(CARD_WIDTH / 2, INSET);
+        TRIANGLE_PATH.lineTo(INSET, CARD_WIDTH - INSET - BOTTOM_OFFSET);
+        TRIANGLE_PATH.lineTo(CARD_WIDTH - INSET, CARD_WIDTH - INSET - BOTTOM_OFFSET);
+        TRIANGLE_PATH.closePath();
+    }
+
     public static void draw(Graphics g, Card card) {
         drawBackground(g);
         drawShape(g, card);
@@ -103,46 +136,17 @@ public class CardRenderer {
     }
 
     private static void drawCross(Graphics2D g, Color fillColor) {
-        GeneralPath cross = new GeneralPath();
-        // top
-        cross.moveTo(CARD_WIDTH / 2 - CROSS_WIDTH / 2, INSET);
-        cross.lineTo(CARD_WIDTH / 2 + CROSS_WIDTH / 2, INSET);
-        // right top inside
-        cross.lineTo(CARD_WIDTH / 2 + CROSS_WIDTH / 2, CARD_WIDTH / 2 - CROSS_WIDTH / 2);
-        // right
-        cross.lineTo(CARD_WIDTH - INSET, CARD_WIDTH / 2 - CROSS_WIDTH / 2);
-        cross.lineTo(CARD_WIDTH - INSET, CARD_WIDTH / 2 + CROSS_WIDTH / 2);
-        // right bottom inside
-        cross.lineTo(CARD_WIDTH / 2 + CROSS_WIDTH / 2, CARD_WIDTH / 2 + CROSS_WIDTH / 2);
-        // bottom
-        cross.lineTo(CARD_WIDTH / 2 + CROSS_WIDTH / 2, CARD_WIDTH - INSET);
-        cross.lineTo(CARD_WIDTH / 2 - CROSS_WIDTH / 2, CARD_WIDTH - INSET);
-        // left bottom inside
-        cross.lineTo(CARD_WIDTH / 2 - CROSS_WIDTH / 2, CARD_WIDTH / 2 + CROSS_WIDTH / 2);
-        // left
-        cross.lineTo(INSET, CARD_WIDTH / 2 + CROSS_WIDTH / 2);
-        cross.lineTo(INSET, CARD_WIDTH / 2 - CROSS_WIDTH / 2);
-        // left top inside
-        cross.lineTo(CARD_WIDTH / 2 - CROSS_WIDTH / 2, CARD_WIDTH / 2 - CROSS_WIDTH / 2);
-        cross.closePath();
-
         g.setColor(fillColor);
-        g.fill(cross);
+        g.fill(CROSS_PATH);
         g.setColor(OUTLINE_COLOR);
-        g.draw(cross);
+        g.draw(CROSS_PATH);
     }
 
     private static void drawTriangle(Graphics2D g, Color fillColor) {
-        GeneralPath tri = new GeneralPath();
-        tri.moveTo(CARD_WIDTH / 2, INSET);
-        tri.lineTo(INSET, CARD_WIDTH - INSET - BOTTOM_OFFSET);
-        tri.lineTo(CARD_WIDTH - INSET, CARD_WIDTH - INSET - BOTTOM_OFFSET);
-        tri.closePath();
-
         g.setColor(fillColor);
-        g.fill(tri);
+        g.fill(TRIANGLE_PATH);
         g.setColor(OUTLINE_COLOR);
-        g.draw(tri);
+        g.draw(TRIANGLE_PATH);
     }
 
     private static Color getColor(Card card) {
