@@ -4,6 +4,7 @@ import org.doxu.iota.Player;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.PriorityQueue;
+import org.doxu.iota.Board;
 import org.doxu.iota.Card;
 import org.doxu.iota.IllegalLaydownException;
 import org.doxu.iota.Laydown;
@@ -20,6 +21,7 @@ public class SimpleHighTwoPlayer extends Player {
 
     @Override
     public Turn turn() {
+        Board boardCopy = getBoard().copy();
         List<ScoreLaydown> options1 = new ArrayList<>();
         for (Card card : getHand().getCards()) {
             List<Location> locations = SimpleHighCommon.collectValidLocations(getBoard());
@@ -28,8 +30,9 @@ public class SimpleHighTwoPlayer extends Player {
                 Laydown laydown = new Laydown();
                 laydown.addMove(new Move(location, card));
                 try {
-                    int score = getBoard().copy().applyLaydown(laydown);
+                    int score = boardCopy.applyLaydown(laydown);
                     options1.add(new ScoreLaydown(score, laydown));
+                    boardCopy.undo(laydown);
                 } catch (IllegalLaydownException ex) {
                 }
             }
@@ -43,8 +46,9 @@ public class SimpleHighTwoPlayer extends Player {
                         Laydown laydown = scoreLaydown.laydown.copy();
                         laydown.addMove(new Move(location, card));
                         try {
-                            int score = getBoard().copy().applyLaydown(laydown);
+                            int score = boardCopy.applyLaydown(laydown);
                             options2.add(new ScoreLaydown(score, laydown));
+                            boardCopy.undo(laydown);
                         } catch (IllegalLaydownException ex) {
                         }
                     }
