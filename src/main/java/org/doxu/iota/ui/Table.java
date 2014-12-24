@@ -39,10 +39,8 @@ public class Table extends JPanel implements ComponentListener {
     }
 
     private void draw(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
-
-        drawGrid(g2d);
-        drawTableBounds(g2d);
+        drawGrid(g);
+        drawTableBounds((Graphics2D) g);
 
         int xTileOffset = Board.MIDDLE - xAnchor;
         int yTileOffset = Board.MIDDLE - yAnchor;
@@ -54,17 +52,19 @@ public class Table extends JPanel implements ComponentListener {
                 if (!card.isBlank()) {
                     int x = i * CardRenderer.CARD_WIDTH;
                     int y = j * CardRenderer.CARD_WIDTH;
-                    CardRenderer.draw(g2d, card, x, y);
+                    Graphics g2card = g.create(x, y, CardRenderer.CARD_WIDTH, CardRenderer.CARD_WIDTH);
+                    CardRenderer.draw(g2card, card);
+                    g2card.dispose();
                     if (i == xAnchor && j == yAnchor) {
-                        g2d.setColor(STARTING_CARD_COLOR);
-                        g2d.drawRect(x, y, CardRenderer.CARD_WIDTH, CardRenderer.CARD_WIDTH);
+                        g.setColor(STARTING_CARD_COLOR);
+                        g.drawRect(x, y, CardRenderer.CARD_WIDTH, CardRenderer.CARD_WIDTH);
                     }
                 }
             }
         }
     }
 
-    private void drawGrid(Graphics2D g2d) {
+    private void drawGrid(Graphics g2d) {
         g2d.setColor(GRID_COLOR);
         Dimension tableDim = getSize();
         for (int i = CardRenderer.CARD_WIDTH; i < tableDim.height; i += CardRenderer.CARD_WIDTH) {

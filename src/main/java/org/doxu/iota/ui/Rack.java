@@ -2,7 +2,6 @@ package org.doxu.iota.ui;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.util.List;
 import javax.swing.JPanel;
 import org.doxu.iota.Card;
@@ -23,12 +22,12 @@ public class Rack extends JPanel {
     }
 
     private void draw(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
-
         List<Card> cards = player.getHand().getCards();
 
         for (int i = 0; i < cards.size(); i++) {
-            CardRenderer.draw(g2d, cards.get(i), i * CardRenderer.CARD_WIDTH, 0);
+            Graphics g2card = g.create(i * CardRenderer.CARD_WIDTH, 0, CardRenderer.CARD_WIDTH, CardRenderer.CARD_WIDTH);
+            CardRenderer.draw(g2card, cards.get(i));
+            g2card.dispose();
         }
     }
 

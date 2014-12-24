@@ -1,6 +1,7 @@
 package org.doxu.iota.ui;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.GeneralPath;
 import org.doxu.iota.Card;
@@ -12,6 +13,7 @@ public class CardRenderer {
     public static final int INSET = 2;
 
     private static final Color OUTLINE_COLOR = new Color(0, 0, 0);
+    private static final Color DOT_COLOR = new Color(0, 0, 0);
     private static final Color CARD_COLOR = new Color(255, 255, 255);
     private static final Color BLUE_COLOR = new Color(150, 200, 255);
     private static final Color GREEN_COLOR = new Color(144, 209, 64);
@@ -19,41 +21,41 @@ public class CardRenderer {
     private static final Color YELLOW_COLOR = new Color(243, 247, 12);
     private static final Color WHITE_COLOR = new Color(255, 255, 255);
 
-    public static void draw(Graphics2D g, Card card, int x, int y) {
-        drawBackground(g, x, y);
-        drawShape(g, card, x, y);
-        drawDots(g, card, x, y);
+    public static void draw(Graphics g, Card card) {
+        drawBackground(g);
+        drawShape(g, card);
+        drawDots(g, card);
     }
 
-    private static void drawBackground(Graphics2D g, int x, int y) {
+    private static void drawBackground(Graphics g) {
         g.setColor(CARD_COLOR);
-        g.fillRect(x + INSET, y + INSET, CARD_WIDTH - INSET * 2, CARD_WIDTH - INSET * 2);
+        g.fillRect(INSET, INSET, CARD_WIDTH - INSET * 2, CARD_WIDTH - INSET * 2);
         g.setColor(OUTLINE_COLOR);
-        g.drawRect(x + INSET, y + INSET, CARD_WIDTH - INSET * 2, CARD_WIDTH - INSET * 2);
+        g.drawRect(INSET, INSET, CARD_WIDTH - INSET * 2, CARD_WIDTH - INSET * 2);
     }
 
-    private static void drawDots(Graphics2D g, Card card, int x, int y) {
-        g.setColor(new Color(0, 0, 0));
+    private static void drawDots(Graphics g, Card card) {
+        g.setColor(DOT_COLOR);
         int dotWidth = 3;
         int offset = 2;
         switch (card.getCount()) {
             case ONE:
-                g.fillRect(x + CARD_WIDTH / 2 - dotWidth / 2, y + CARD_WIDTH / 2 - dotWidth / 2, dotWidth, dotWidth);
+                g.fillRect(CARD_WIDTH / 2 - dotWidth / 2, CARD_WIDTH / 2 - dotWidth / 2, dotWidth, dotWidth);
                 break;
             case TWO:
-                g.fillRect(x + CARD_WIDTH / 2 - dotWidth / 2 - offset, y + CARD_WIDTH / 2 - dotWidth / 2, dotWidth, dotWidth);
-                g.fillRect(x + CARD_WIDTH / 2 - dotWidth / 2 + offset, y + CARD_WIDTH / 2 - dotWidth / 2, dotWidth, dotWidth);
+                g.fillRect(CARD_WIDTH / 2 - dotWidth / 2 - offset, CARD_WIDTH / 2 - dotWidth / 2, dotWidth, dotWidth);
+                g.fillRect(CARD_WIDTH / 2 - dotWidth / 2 + offset, CARD_WIDTH / 2 - dotWidth / 2, dotWidth, dotWidth);
                 break;
             case THREE:
-                g.fillRect(x + CARD_WIDTH / 2 - dotWidth / 2, y + CARD_WIDTH / 2 - dotWidth / 2 - offset, dotWidth, dotWidth);
-                g.fillRect(x + CARD_WIDTH / 2 - dotWidth / 2 - offset, y + CARD_WIDTH / 2 - dotWidth / 2 + offset, dotWidth, dotWidth);
-                g.fillRect(x + CARD_WIDTH / 2 - dotWidth / 2 + offset, y + CARD_WIDTH / 2 - dotWidth / 2 + offset, dotWidth, dotWidth);
+                g.fillRect(CARD_WIDTH / 2 - dotWidth / 2, CARD_WIDTH / 2 - dotWidth / 2 - offset, dotWidth, dotWidth);
+                g.fillRect(CARD_WIDTH / 2 - dotWidth / 2 - offset, CARD_WIDTH / 2 - dotWidth / 2 + offset, dotWidth, dotWidth);
+                g.fillRect(CARD_WIDTH / 2 - dotWidth / 2 + offset, CARD_WIDTH / 2 - dotWidth / 2 + offset, dotWidth, dotWidth);
                 break;
             case FOUR:
-                g.fillRect(x + CARD_WIDTH / 2 - dotWidth / 2 - offset, y + CARD_WIDTH / 2 - dotWidth / 2 - offset, dotWidth, dotWidth);
-                g.fillRect(x + CARD_WIDTH / 2 - dotWidth / 2 + offset, y + CARD_WIDTH / 2 - dotWidth / 2 - offset, dotWidth, dotWidth);
-                g.fillRect(x + CARD_WIDTH / 2 - dotWidth / 2 - offset, y + CARD_WIDTH / 2 - dotWidth / 2 + offset, dotWidth, dotWidth);
-                g.fillRect(x + CARD_WIDTH / 2 - dotWidth / 2 + offset, y + CARD_WIDTH / 2 - dotWidth / 2 + offset, dotWidth, dotWidth);
+                g.fillRect(CARD_WIDTH / 2 - dotWidth / 2 - offset, CARD_WIDTH / 2 - dotWidth / 2 - offset, dotWidth, dotWidth);
+                g.fillRect(CARD_WIDTH / 2 - dotWidth / 2 + offset, CARD_WIDTH / 2 - dotWidth / 2 - offset, dotWidth, dotWidth);
+                g.fillRect(CARD_WIDTH / 2 - dotWidth / 2 - offset, CARD_WIDTH / 2 - dotWidth / 2 + offset, dotWidth, dotWidth);
+                g.fillRect(CARD_WIDTH / 2 - dotWidth / 2 + offset, CARD_WIDTH / 2 - dotWidth / 2 + offset, dotWidth, dotWidth);
                 break;
             case BLANK:
             default:
@@ -61,20 +63,20 @@ public class CardRenderer {
         }
     }
 
-    private static void drawShape(Graphics2D g, Card card, int x, int y) {
+    private static void drawShape(Graphics g, Card card) {
         Color fillColor = getColor(card);
         switch (card.getShape()) {
             case CIRCLE:
-                drawCircle(g, fillColor, x, y);
+                drawCircle(g, fillColor);
                 break;
             case SQUARE:
-                drawSquare(g, fillColor, x, y);
+                drawSquare(g, fillColor);
                 break;
             case CROSS:
-                drawCross(g, fillColor, x, y);
+                drawCross((Graphics2D) g, fillColor);
                 break;
             case TRIANGLE:
-                drawTriangle(g, fillColor, x, y);
+                drawTriangle((Graphics2D) g, fillColor);
                 break;
             case BLANK:
             default:
@@ -82,45 +84,45 @@ public class CardRenderer {
         }
     }
 
-    private static void drawCircle(Graphics2D g, Color fillColor, int x, int y) {
+    private static void drawCircle(Graphics g, Color fillColor) {
         int circleInset = 4;
         g.setColor(fillColor);
-        g.fillOval(x + circleInset, y + circleInset, CARD_WIDTH - circleInset * 2, CARD_WIDTH - circleInset * 2);
+        g.fillOval(circleInset, circleInset, CARD_WIDTH - circleInset * 2, CARD_WIDTH - circleInset * 2);
         g.setColor(OUTLINE_COLOR);
-        g.drawOval(x + circleInset, y + circleInset, CARD_WIDTH - circleInset * 2, CARD_WIDTH - circleInset * 2);
+        g.drawOval(circleInset, circleInset, CARD_WIDTH - circleInset * 2, CARD_WIDTH - circleInset * 2);
     }
 
-    private static void drawSquare(Graphics2D g, Color fillColor, int x, int y) {
+    private static void drawSquare(Graphics g, Color fillColor) {
         int squareInset = 6;
         g.setColor(fillColor);
-        g.fillRect(x + squareInset, y + squareInset, CARD_WIDTH - squareInset * 2, CARD_WIDTH - squareInset * 2);
+        g.fillRect(squareInset, squareInset, CARD_WIDTH - squareInset * 2, CARD_WIDTH - squareInset * 2);
         g.setColor(OUTLINE_COLOR);
-        g.drawRect(x + squareInset, y + squareInset, CARD_WIDTH - squareInset * 2, CARD_WIDTH - squareInset * 2);
+        g.drawRect(squareInset, squareInset, CARD_WIDTH - squareInset * 2, CARD_WIDTH - squareInset * 2);
     }
 
-    private static void drawCross(Graphics2D g, Color fillColor, int x, int y) {
+    private static void drawCross(Graphics2D g, Color fillColor) {
         int crossWidth = 8;
         GeneralPath cross = new GeneralPath();
         // top
-        cross.moveTo(x + CARD_WIDTH / 2 - crossWidth / 2, y + INSET);
-        cross.lineTo(x + CARD_WIDTH / 2 + crossWidth / 2, y + INSET);
+        cross.moveTo(CARD_WIDTH / 2 - crossWidth / 2, INSET);
+        cross.lineTo(CARD_WIDTH / 2 + crossWidth / 2, INSET);
         // right top inside
-        cross.lineTo(x + CARD_WIDTH / 2 + crossWidth / 2, y + CARD_WIDTH / 2 - crossWidth / 2);
+        cross.lineTo(CARD_WIDTH / 2 + crossWidth / 2, CARD_WIDTH / 2 - crossWidth / 2);
         // right
-        cross.lineTo(x + CARD_WIDTH - INSET, y + CARD_WIDTH / 2 - crossWidth / 2);
-        cross.lineTo(x + CARD_WIDTH - INSET, y + CARD_WIDTH / 2 + crossWidth / 2);
+        cross.lineTo(CARD_WIDTH - INSET, CARD_WIDTH / 2 - crossWidth / 2);
+        cross.lineTo(CARD_WIDTH - INSET, CARD_WIDTH / 2 + crossWidth / 2);
         // right bottom inside
-        cross.lineTo(x + CARD_WIDTH / 2 + crossWidth / 2, y + CARD_WIDTH / 2 + crossWidth / 2);
+        cross.lineTo(CARD_WIDTH / 2 + crossWidth / 2, CARD_WIDTH / 2 + crossWidth / 2);
         // bottom
-        cross.lineTo(x + CARD_WIDTH / 2 + crossWidth / 2, y + CARD_WIDTH - INSET);
-        cross.lineTo(x + CARD_WIDTH / 2 - crossWidth / 2, y + CARD_WIDTH - INSET);
+        cross.lineTo(CARD_WIDTH / 2 + crossWidth / 2, CARD_WIDTH - INSET);
+        cross.lineTo(CARD_WIDTH / 2 - crossWidth / 2, CARD_WIDTH - INSET);
         // left bottom inside
-        cross.lineTo(x + CARD_WIDTH / 2 - crossWidth / 2, y + CARD_WIDTH / 2 + crossWidth / 2);
+        cross.lineTo(CARD_WIDTH / 2 - crossWidth / 2, CARD_WIDTH / 2 + crossWidth / 2);
         // left
-        cross.lineTo(x + INSET, y + CARD_WIDTH / 2 + crossWidth / 2);
-        cross.lineTo(x + INSET, y + CARD_WIDTH / 2 - crossWidth / 2);
+        cross.lineTo(INSET, CARD_WIDTH / 2 + crossWidth / 2);
+        cross.lineTo(INSET, CARD_WIDTH / 2 - crossWidth / 2);
         // left top inside
-        cross.lineTo(x + CARD_WIDTH / 2 - crossWidth / 2, y + CARD_WIDTH / 2 - crossWidth / 2);
+        cross.lineTo(CARD_WIDTH / 2 - crossWidth / 2, CARD_WIDTH / 2 - crossWidth / 2);
         cross.closePath();
 
         g.setColor(fillColor);
@@ -129,12 +131,12 @@ public class CardRenderer {
         g.draw(cross);
     }
 
-    private static void drawTriangle(Graphics2D g, Color fillColor, int x, int y) {
+    private static void drawTriangle(Graphics2D g, Color fillColor) {
         int bottomOffset = 2;
         GeneralPath tri = new GeneralPath();
-        tri.moveTo(x + CARD_WIDTH / 2, y + INSET);
-        tri.lineTo(x + INSET, y + CARD_WIDTH - INSET - bottomOffset);
-        tri.lineTo(x + CARD_WIDTH - INSET, y + CARD_WIDTH - INSET - bottomOffset);
+        tri.moveTo(CARD_WIDTH / 2, INSET);
+        tri.lineTo(INSET, CARD_WIDTH - INSET - bottomOffset);
+        tri.lineTo(CARD_WIDTH - INSET, CARD_WIDTH - INSET - bottomOffset);
         tri.closePath();
 
         g.setColor(fillColor);
