@@ -119,13 +119,6 @@ public class Board {
         return calculateScore(moves);
     }
 
-    public void undo(Laydown laydown) {
-        List<Move> moves = laydown.getMoves();
-        for (Move move : moves) {
-            board.applyCard(move.getLocation(), Card.BLANK);
-        }
-    }
-
     private int calculateScore(List<Move> moves) {
         int sum = 0;
         int lots = 0;
