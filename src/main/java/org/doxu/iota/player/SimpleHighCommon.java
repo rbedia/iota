@@ -2,7 +2,7 @@ package org.doxu.iota.player;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.doxu.iota.Board;
+import org.doxu.iota.board.Board;
 import org.doxu.iota.Card;
 import org.doxu.iota.Deck;
 import org.doxu.iota.Hand;

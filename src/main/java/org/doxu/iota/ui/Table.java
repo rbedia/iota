@@ -8,8 +8,8 @@ import java.awt.Rectangle;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import javax.swing.JPanel;
-import org.doxu.iota.Board;
-import org.doxu.iota.BoardBounds;
+import org.doxu.iota.board.Board;
+import org.doxu.iota.board.BoardBounds;
 import org.doxu.iota.Card;
 
 public class Table extends JPanel implements ComponentListener {

@@ -1,7 +1,10 @@
-package org.doxu.iota;
+package org.doxu.iota.board;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.doxu.iota.Card;
+import org.doxu.iota.Location;
+import org.doxu.iota.Move;
 
 public class BoardOverlay implements BoardView {
 
@@ -58,11 +61,6 @@ public class BoardOverlay implements BoardView {
     @Override
     public void applyCard(Location location, Card card) {
         moves.add(new Move(location, card));
-    }
-
-    @Override
-    public Card[][] getCards() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override

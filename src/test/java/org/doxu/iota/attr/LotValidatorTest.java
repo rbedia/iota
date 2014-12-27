@@ -3,15 +3,8 @@ package org.doxu.iota.attr;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-/**
- *
- * @author rafael
- */
 public class LotValidatorTest {
 
-    /**
-     * Test of validate3 method, of class LotValidator.
-     */
     @Test
     public void testValidate3() {
         assertTrue(LotValidator.validate3(Shape.CIRCLE, Shape.CIRCLE, Shape.CIRCLE));
@@ -21,9 +14,6 @@ public class LotValidatorTest {
         assertFalse(LotValidator.validate3(Shape.CIRCLE, Shape.CROSS, Shape.CROSS));
     }
 
-    /**
-     * Test of validate4 method, of class LotValidator.
-     */
     @Test
     public void testValidate4() {
         assertTrue(LotValidator.validate4(Shape.CIRCLE, Shape.CIRCLE, Shape.CIRCLE, Shape.CIRCLE));

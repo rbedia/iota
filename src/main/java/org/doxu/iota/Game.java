@@ -1,5 +1,6 @@
 package org.doxu.iota;
 
+import org.doxu.iota.board.Board;
 import java.util.ArrayList;
 import java.util.List;
 import org.doxu.iota.player.ScoreLaydown;

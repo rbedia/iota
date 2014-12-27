@@ -1,5 +1,6 @@
 package org.doxu.iota;
 
+import org.doxu.iota.board.Board;
 import org.doxu.iota.turn.Turn;
 
 public abstract class Player {

@@ -1,4 +1,4 @@
-package org.doxu.iota;
+package org.doxu.iota.board;
 
 /**
  * Contains the bounds of the board that are being used by cards.

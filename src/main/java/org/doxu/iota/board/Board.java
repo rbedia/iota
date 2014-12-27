@@ -1,4 +1,4 @@
-package org.doxu.iota;
+package org.doxu.iota.board;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -12,10 +12,12 @@ import org.antlr.v4.runtime.BaseErrorListener;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
+import org.doxu.iota.Card;
+import org.doxu.iota.IllegalLaydownException;
+import org.doxu.iota.Laydown;
+import org.doxu.iota.Location;
+import org.doxu.iota.Move;
 import org.doxu.iota.attr.LotValidator;
-import org.doxu.iota.board.BoardBaseListener;
-import org.doxu.iota.board.BoardLexer;
-import org.doxu.iota.board.BoardParser;
 
 public class Board {
 

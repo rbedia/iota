@@ -2,7 +2,7 @@ package org.doxu.iota.util;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.doxu.iota.Board;
+import org.doxu.iota.board.Board;
 import org.doxu.iota.Card;
 import org.doxu.iota.Deck;
 import org.doxu.iota.IllegalLaydownException;

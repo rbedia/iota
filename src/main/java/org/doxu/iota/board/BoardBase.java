@@ -1,4 +1,7 @@
-package org.doxu.iota;
+package org.doxu.iota.board;
+
+import org.doxu.iota.Card;
+import org.doxu.iota.Location;
 
 public class BoardBase implements BoardView {
 
@@ -51,11 +54,6 @@ public class BoardBase implements BoardView {
     public void applyCard(Location location, Card card) {
         cards[location.getX()][location.getY()] = card;
         bounds.updateMinMax(location.getX(), location.getY());
-    }
-
-    @Override
-    public Card[][] getCards() {
-        return cards;
     }
 
     @Override

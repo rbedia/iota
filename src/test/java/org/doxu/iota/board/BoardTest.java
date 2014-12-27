@@ -1,13 +1,14 @@
-package org.doxu.iota;
+package org.doxu.iota.board;
 
+import org.doxu.iota.Card;
+import org.doxu.iota.IllegalLaydownException;
+import org.doxu.iota.Laydown;
+import org.doxu.iota.Location;
+import org.doxu.iota.Move;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-/**
- *
- * @author rafael
- */
 public class BoardTest {
 
     Board board;
