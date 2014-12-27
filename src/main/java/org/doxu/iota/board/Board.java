@@ -52,7 +52,7 @@ public class Board {
     }
 
     public Card getCard(int x, int y) {
-        return board.getCard(x, y);
+        return board.getCard(new Location(x, y));
     }
 
     public BoardBounds getBounds() {

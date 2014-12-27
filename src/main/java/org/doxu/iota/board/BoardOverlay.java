@@ -10,27 +10,34 @@ public class BoardOverlay implements BoardView {
 
     private final BoardView board;
 
-    private List<Move> moves;
+    private final List<Move> moves;
+
+    private final BoardBounds bounds;
 
     public BoardOverlay(BoardView board) {
         this.board = board;
-        init();
+        moves = new ArrayList<>();
+        bounds = new BoardBounds();
     }
 
     public BoardOverlay(BoardView board, List<Move> moves) {
-        this.board = board;
-        this.moves = moves;
+        this(board);
+        setMoves(moves);
     }
 
     @Override
     public final void init() {
-        // TODO decide if init() should propagate. For now it doesn't.
-//        board.init();
-        moves = new ArrayList<>();
+        bounds.init();
+        moves.clear();
     }
 
-    public void setMoves(List<Move> moves) {
-        this.moves = moves;
+    public final void setMoves(List<Move> moves) {
+        bounds.init();
+        this.moves.clear();
+        this.moves.addAll(moves);
+        for (Move move : moves) {
+            bounds.updateMinMax(move.getLocation().getX(), move.getLocation().getY());
+        }
     }
 
     @Override
@@ -54,19 +61,18 @@ public class BoardOverlay implements BoardView {
     }
 
     @Override
-    public Card getCard(int x, int y) {
-        return getCard(new Location(x, y));
-    }
-
-    @Override
     public void applyCard(Location location, Card card) {
         moves.add(new Move(location, card));
+        bounds.updateMinMax(location.getX(), location.getY());
     }
 
     @Override
     public BoardBounds getBounds() {
-        // TODO calculate bounds from moves list
-        return board.getBounds();
+        BoardBounds parent = board.getBounds();
+        BoardBounds combined = bounds.copy();
+        combined.updateMinMax(parent.getMinX(), parent.getMinY());
+        combined.updateMinMax(parent.getMaxX(), parent.getMaxY());
+        return combined;
     }
 
 }

@@ -46,11 +46,6 @@ public class BoardBase implements BoardView {
     }
 
     @Override
-    public Card getCard(int x, int y) {
-        return cards[x][y];
-    }
-
-    @Override
     public void applyCard(Location location, Card card) {
         cards[location.getX()][location.getY()] = card;
         bounds.updateMinMax(location.getX(), location.getY());
