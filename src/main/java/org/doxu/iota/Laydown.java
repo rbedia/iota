@@ -34,4 +34,12 @@ public class Laydown {
         }
         return cards;
     }
+
+    public List<Location> getLocations() {
+        List<Location> locations = new ArrayList<>();
+        for (Move move : moves) {
+            locations.add(move.getLocation());
+        }
+        return locations;
+    }
 }
