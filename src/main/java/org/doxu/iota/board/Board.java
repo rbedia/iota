@@ -253,6 +253,11 @@ public class Board {
         return x >= 0 && x < BOARD_SIZE;
     }
 
+    /**
+     * Validates the entire board.
+     *
+     * @throws IllegalLaydownException
+     */
     private void validateBoard() throws IllegalLaydownException {
         // Validate rows
         for (int i = 0; i < BOARD_SIZE; i++) {
@@ -279,6 +284,24 @@ public class Board {
                     lot.clear();
                 }
             }
+        }
+    }
+
+    /**
+     * Validates the cards in the rows and columns specified by locations.
+     * @param locations
+     * @throws IllegalLaydownException
+     */
+    private void validateBoard(List<Location> locations) throws IllegalLaydownException {
+        // Validate rows
+        for (Location location : locations) {
+            List<Card> cards = gatherRow(location);
+            LotValidator.validate(cards);
+        }
+        // Validate columns
+        for (Location location : locations) {
+            List<Card> cards = gatherColumn(location);
+            LotValidator.validate(cards);
         }
     }
 
@@ -322,19 +345,6 @@ public class Board {
             card = getCard(location);
         }
         return cardColumn;
-    }
-
-    private void validateBoard(List<Location> locations) throws IllegalLaydownException {
-        // Validate rows
-        for (Location location : locations) {
-            List<Card> cards = gatherRow(location);
-            LotValidator.validate(cards);
-        }
-        // Validate columns
-        for (Location location : locations) {
-            List<Card> cards = gatherColumn(location);
-            LotValidator.validate(cards);
-        }
     }
 
     public void print() {
