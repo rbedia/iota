@@ -45,7 +45,7 @@ public class LotProbabilityGenerator {
                 Card card = deck.draw();
                 Laydown trialLaydown = new Laydown();
                 trialLaydown.addMove(new Move(new Location(Board.MIDDLE + 2, Board.MIDDLE), card));
-                Board trialBoard = board.copy();
+                Board trialBoard = board.overlay();
                 trialBoard.applyLaydown(trialLaydown);
                 System.out.println(card);
                 count++;

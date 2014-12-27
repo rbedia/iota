@@ -45,10 +45,9 @@ public class Table extends JPanel implements ComponentListener {
         int xTileOffset = Board.MIDDLE - xAnchor;
         int yTileOffset = Board.MIDDLE - yAnchor;
 
-        Card[][] cards = board.getCards();
         for (int i = 0; i < getTableWidth(); i++) {
             for (int j = 0; j < getTableHeight(); j++) {
-                Card card = cards[i + xTileOffset][j + yTileOffset];
+                Card card = board.getCard(i + xTileOffset, j + yTileOffset);
                 if (!card.isBlank()) {
                     int x = i * CardRenderer.CARD_WIDTH;
                     int y = j * CardRenderer.CARD_WIDTH;

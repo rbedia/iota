@@ -45,27 +45,27 @@ public class SimpleHighCommon {
     public static List<Location> collectValidLocations(Board board, Location startingLocation) {
         List<Location> locations = new ArrayList<>();
         // Search left
-        Location location = startingLocation.moveLeft();
+        Location location = startingLocation.left();
         while (board.isOverlappingCard(location)) {
-            location = location.moveLeft();
+            location = location.left();
         }
         locations.add(location);
         // Search right
-        location = startingLocation.moveRight();
+        location = startingLocation.right();
         while (board.isOverlappingCard(location)) {
-            location = location.moveRight();
+            location = location.right();
         }
         locations.add(location);
         // Search up
-        location = startingLocation.moveUp();
+        location = startingLocation.up();
         while (board.isOverlappingCard(location)) {
-            location = location.moveUp();
+            location = location.up();
         }
         locations.add(location);
         // Search down
-        location = startingLocation.moveDown();
+        location = startingLocation.down();
         while (board.isOverlappingCard(location)) {
-            location = location.moveDown();
+            location = location.down();
         }
         locations.add(location);
 
@@ -78,31 +78,31 @@ public class SimpleHighCommon {
         if (horizontal) {
             // Search left
             Location leftLocation = location1.getX() < location2.getX() ? location1 : location2;
-            Location location = leftLocation.moveLeft();
+            Location location = leftLocation.left();
             while (board.isOverlappingCard(location)) {
-                location = location.moveLeft();
+                location = location.left();
             }
             locations.add(location);
             // Search right
             Location rightLocation = location1.getX() > location2.getX() ? location1 : location2;
-            location = rightLocation.moveRight();
+            location = rightLocation.right();
             while (board.isOverlappingCard(location)) {
-                location = location.moveRight();
+                location = location.right();
             }
             locations.add(location);
         } else {
             // Search up
             Location topLocation = location1.getY() < location2.getY() ? location1 : location2;
-            Location location = topLocation.moveUp();
+            Location location = topLocation.up();
             while (board.isOverlappingCard(location)) {
-                location = location.moveUp();
+                location = location.up();
             }
             locations.add(location);
             // Search down
             Location bottomLocation = location1.getY() > location2.getY() ? location1 : location2;
-            location = bottomLocation.moveDown();
+            location = bottomLocation.down();
             while (board.isOverlappingCard(location)) {
-                location = location.moveDown();
+                location = location.down();
             }
             locations.add(location);
         }
@@ -115,31 +115,31 @@ public class SimpleHighCommon {
         if (horizontal) {
             // Search left
             Location leftLocation = Location.getLeftmost(location1, location2, location3);
-            Location location = leftLocation.moveLeft();
+            Location location = leftLocation.left();
             while (board.isOverlappingCard(location)) {
-                location = location.moveLeft();
+                location = location.left();
             }
             locations.add(location);
             // Search right
             Location rightLocation = Location.getRightmost(location1, location2, location3);
-            location = rightLocation.moveRight();
+            location = rightLocation.right();
             while (board.isOverlappingCard(location)) {
-                location = location.moveRight();
+                location = location.right();
             }
             locations.add(location);
         } else {
             // Search up
             Location topLocation = Location.getTopmost(location1, location2, location3);
-            Location location = topLocation.moveUp();
+            Location location = topLocation.up();
             while (board.isOverlappingCard(location)) {
-                location = location.moveUp();
+                location = location.up();
             }
             locations.add(location);
             // Search down
             Location bottomLocation = Location.getBottommost(location1, location2, location3);
-            location = bottomLocation.moveDown();
+            location = bottomLocation.down();
             while (board.isOverlappingCard(location)) {
-                location = location.moveDown();
+                location = location.down();
             }
             locations.add(location);
         }

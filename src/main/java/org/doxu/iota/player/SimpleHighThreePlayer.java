@@ -21,7 +21,6 @@ public class SimpleHighThreePlayer extends Player {
 
     @Override
     public Turn turn() {
-        Board boardCopy = getBoard().copy();
         List<ScoreLaydown> options1 = new ArrayList<>();
         for (Card card : getHand().getCards()) {
             List<Location> locations = SimpleHighCommon.collectValidLocations(getBoard());
@@ -30,9 +29,9 @@ public class SimpleHighThreePlayer extends Player {
                 Laydown laydown = new Laydown();
                 laydown.addMove(new Move(location, card));
                 try {
+                    Board boardCopy = getBoard().overlay();
                     int score = boardCopy.applyLaydown(laydown);
                     options1.add(new ScoreLaydown(score, laydown));
-                            boardCopy.undo(laydown);
                 } catch (IllegalLaydownException ex) {
                 }
             }
@@ -46,9 +45,9 @@ public class SimpleHighThreePlayer extends Player {
                         Laydown laydown = scoreLaydown.laydown.copy();
                         laydown.addMove(new Move(location, card));
                         try {
+                            Board boardCopy = getBoard().overlay();
                             int score = boardCopy.applyLaydown(laydown);
                             options2.add(new ScoreLaydown(score, laydown));
-                            boardCopy.undo(laydown);
                         } catch (IllegalLaydownException ex) {
                         }
                     }
@@ -66,9 +65,9 @@ public class SimpleHighThreePlayer extends Player {
                         Laydown laydown = scoreLaydown.laydown.copy();
                         laydown.addMove(new Move(location, card));
                         try {
+                            Board boardCopy = getBoard().overlay();
                             int score = boardCopy.applyLaydown(laydown);
                             options3.add(new ScoreLaydown(score, laydown));
-                            boardCopy.undo(laydown);
                         } catch (IllegalLaydownException ex) {
                         }
                     }
