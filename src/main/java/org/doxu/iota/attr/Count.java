@@ -24,6 +24,7 @@ public enum Count implements Attribute {
     public static Count fromChar(char in) {
         switch (in) {
             case ' ':
+            case '.':
                 return BLANK;
             case '1':
                 return ONE;
@@ -34,7 +35,7 @@ public enum Count implements Attribute {
             case '4':
                 return FOUR;
             default:
-                throw new IllegalArgumentException("Invalid count.");
+                throw new IllegalArgumentException("Invalid count: " + in);
         }
     }
 

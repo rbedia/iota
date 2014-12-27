@@ -20,6 +20,7 @@ public enum Shape implements Attribute {
     public static Shape fromChar(char in) {
         switch (in) {
             case ' ':
+            case '.':
                 return BLANK;
             case 'O':
                 return CIRCLE;
@@ -30,7 +31,7 @@ public enum Shape implements Attribute {
             case '+':
                 return CROSS;
             default:
-                throw new IllegalArgumentException("Invalid shape.");
+                throw new IllegalArgumentException("Invalid shape: " + in);
         }
     }
 

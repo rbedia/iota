@@ -20,6 +20,7 @@ public enum Color implements Attribute {
     public static Color fromChar(char in) {
         switch (in) {
             case ' ':
+            case '.':
                 return BLANK;
             case 'Y':
                 return YELLOW;
@@ -30,7 +31,7 @@ public enum Color implements Attribute {
             case 'B':
                 return BLUE;
             default:
-                throw new IllegalArgumentException("Invalid color.");
+                throw new IllegalArgumentException("Invalid color: " + in);
         }
     }
 
