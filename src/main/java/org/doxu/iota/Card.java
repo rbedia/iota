@@ -53,6 +53,9 @@ public class Card {
         Color color = Color.fromChar(attributes.charAt(0));
         Shape shape = Shape.fromChar(attributes.charAt(1));
         Count count = Count.fromChar(attributes.charAt(2));
+        if (color == Color.BLANK && shape == Shape.BLANK && count == Count.BLANK) {
+            return Card.BLANK;
+        }
         return new Card(color, shape, count);
     }
 
@@ -104,7 +107,7 @@ public class Card {
     }
 
     public boolean isBlank() {
-        return this == BLANK;
+        return equals(BLANK);
     }
 
 }
