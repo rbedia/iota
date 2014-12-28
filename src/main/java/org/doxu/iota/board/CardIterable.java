@@ -60,4 +60,20 @@ public class CardIterable implements Iterable<Card> {
             }
         };
     }
+
+    public static Iterable<Card> right(BoardView board, Location start) {
+        return new CardIterable(board, start, Location.Direction.RIGHT);
+    }
+
+    public static Iterable<Card> left(BoardView board, Location start) {
+        return new CardIterable(board, start, Location.Direction.LEFT);
+    }
+
+    public static Iterable<Card> down(BoardView board, Location start) {
+        return new CardIterable(board, start, Location.Direction.DOWN);
+    }
+
+    public static Iterable<Card> up(BoardView board, Location start) {
+        return new CardIterable(board, start, Location.Direction.UP);
+    }
 }

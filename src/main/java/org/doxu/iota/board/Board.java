@@ -119,22 +119,6 @@ public class Board {
         return calculateScore(moves);
     }
 
-    private Iterable<Card> rightIterable(final Location start) {
-        return new CardIterable(board, start, Location.Direction.RIGHT);
-    }
-
-    private Iterable<Card> leftIterable(final Location start) {
-        return new CardIterable(board, start, Location.Direction.LEFT);
-    }
-
-    private Iterable<Card> downIterable(final Location start) {
-        return new CardIterable(board, start, Location.Direction.DOWN);
-    }
-
-    private Iterable<Card> upIterable(final Location start) {
-        return new CardIterable(board, start, Location.Direction.UP);
-    }
-
     private int calculateScore(List<Move> moves) {
         int sum = 0;
         int lots = 0;
@@ -143,20 +127,14 @@ public class Board {
         for (Move move : moves) {
             int rowLength = 0;
             // search right
-            for (Card card : rightIterable(move.getLocation().right())) {
+            for (Card card : CardIterable.right(board, move.getLocation().right())) {
                 rowLength++;
-                if (!hCounted.contains(card)) {
-                    sum += card.getPoints();
-                    hCounted.add(card);
-                }
+                sum += tallyCard(hCounted, card);
             }
             // search left
-            for (Card card : leftIterable(move.getLocation().left())) {
+            for (Card card : CardIterable.left(board, move.getLocation().left())) {
                 rowLength++;
-                if (!hCounted.contains(card)) {
-                    sum += card.getPoints();
-                    hCounted.add(card);
-                }
+                sum += tallyCard(hCounted, card);
             }
             if (rowLength > 0 && !hCounted.contains(move.getCard())) {
                 sum += move.getCard().getPoints();
@@ -168,20 +146,14 @@ public class Board {
             }
             rowLength = 0;
             // search up
-            for (Card card : upIterable(move.getLocation().up())) {
+            for (Card card : CardIterable.up(board, move.getLocation().up())) {
                 rowLength++;
-                if (!vCounted.contains(card)) {
-                    sum += card.getPoints();
-                    vCounted.add(card);
-                }
+                sum += tallyCard(vCounted, card);
             }
             // search down
-            for (Card card : downIterable(move.getLocation().down())) {
+            for (Card card : CardIterable.down(board, move.getLocation().down())) {
                 rowLength++;
-                if (!vCounted.contains(card)) {
-                    sum += card.getPoints();
-                    vCounted.add(card);
-                }
+                sum += tallyCard(vCounted, card);
             }
             if (rowLength > 0 && !vCounted.contains(move.getCard())) {
                 sum += move.getCard().getPoints();
@@ -193,6 +165,15 @@ public class Board {
             }
         }
         return sum * (1 << lots);
+    }
+
+    private int tallyCard(Set<Card> cards, Card card) {
+        int points = 0;
+        if (!cards.contains(card)) {
+            points = card.getPoints();
+            cards.add(card);
+        }
+        return points;
     }
 
     public void validLaydown(Laydown laydown) throws IllegalLaydownException {
