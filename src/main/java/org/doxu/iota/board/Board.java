@@ -119,6 +119,22 @@ public class Board {
         return calculateScore(moves);
     }
 
+    private Iterable<Card> rightIterable(final Location start) {
+        return new CardIterable(board, start, Location.Direction.RIGHT);
+    }
+
+    private Iterable<Card> leftIterable(final Location start) {
+        return new CardIterable(board, start, Location.Direction.LEFT);
+    }
+
+    private Iterable<Card> downIterable(final Location start) {
+        return new CardIterable(board, start, Location.Direction.DOWN);
+    }
+
+    private Iterable<Card> upIterable(final Location start) {
+        return new CardIterable(board, start, Location.Direction.UP);
+    }
+
     private int calculateScore(List<Move> moves) {
         int sum = 0;
         int lots = 0;
@@ -127,28 +143,20 @@ public class Board {
         for (Move move : moves) {
             int rowLength = 0;
             // search right
-            Location location = move.getLocation().right();
-            Card card = board.getCard(location);
-            while (card != Card.BLANK) {
+            for (Card card : rightIterable(move.getLocation().right())) {
                 rowLength++;
                 if (!hCounted.contains(card)) {
                     sum += card.getPoints();
                     hCounted.add(card);
                 }
-                location = location.right();
-                card = board.getCard(location);
             }
             // search left
-            location = move.getLocation().left();
-            card = board.getCard(location);
-            while (card != Card.BLANK) {
+            for (Card card : leftIterable(move.getLocation().left())) {
                 rowLength++;
                 if (!hCounted.contains(card)) {
                     sum += card.getPoints();
                     hCounted.add(card);
                 }
-                location = location.left();
-                card = board.getCard(location);
             }
             if (rowLength > 0 && !hCounted.contains(move.getCard())) {
                 sum += move.getCard().getPoints();
@@ -160,28 +168,20 @@ public class Board {
             }
             rowLength = 0;
             // search up
-            location = move.getLocation().up();
-            card = board.getCard(location);
-            while (card != Card.BLANK) {
+            for (Card card : upIterable(move.getLocation().up())) {
                 rowLength++;
                 if (!vCounted.contains(card)) {
                     sum += card.getPoints();
                     vCounted.add(card);
                 }
-                location = location.up();
-                card = board.getCard(location);
             }
             // search down
-            location = move.getLocation().down();
-            card = board.getCard(location);
-            while (card != Card.BLANK) {
+            for (Card card : downIterable(move.getLocation().down())) {
                 rowLength++;
                 if (!vCounted.contains(card)) {
                     sum += card.getPoints();
                     vCounted.add(card);
                 }
-                location = location.down();
-                card = board.getCard(location);
             }
             if (rowLength > 0 && !vCounted.contains(move.getCard())) {
                 sum += move.getCard().getPoints();

@@ -2,6 +2,10 @@ package org.doxu.iota;
 
 public class Location {
 
+    public enum Direction {
+        RIGHT, LEFT, DOWN, UP
+    };
+
     private final int x;
     private final int y;
 
