@@ -31,8 +31,12 @@ public class SimpleHighCommon {
 
     public static List<Location> collectValidLocations(Board board) {
         List<Location> locations = new ArrayList<>();
-        for (int x = 0; x < Board.BOARD_SIZE; x++) {
-            for (int y = 0; y < Board.BOARD_SIZE; y++) {
+        int minX = Math.max(0, board.getBounds().getMinX() - 1);
+        int minY = Math.max(0, board.getBounds().getMinY() - 1);
+        int maxX = Math.min(Board.BOARD_SIZE - 1, board.getBounds().getMaxX() + 1);
+        int maxY = Math.min(Board.BOARD_SIZE - 1, board.getBounds().getMaxY() + 1);
+        for (int x = minX; x <= maxX; x++) {
+            for (int y = minY; y <= maxY; y++) {
                 Location location = new Location(x, y);
                 if (!board.isOverlappingCard(location) && board.isTouchingBoard(location)) {
                     locations.add(location);
