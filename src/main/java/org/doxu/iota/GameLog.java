@@ -34,6 +34,11 @@ public class GameLog {
         return playerCount;
     }
 
+    public Laydown getLastTurn() {
+        Round round = rounds.get(rounds.size() - 1);
+        return round.getLast().laydown;
+    }
+
     public ScoreLaydown getScoreLaydown(int roundIndex, int playerIndex) {
         if (roundIndex >= rounds.size()) {
             return ScoreLaydown.NO_SCORE;
@@ -67,6 +72,13 @@ public class GameLog {
         public void addLaydown(ScoreLaydown laydown) {
             laydowns[index] = laydown;
             index++;
+        }
+
+        public ScoreLaydown getLast() {
+            if (index > 0) {
+                return laydowns[index - 1];
+            }
+            return ScoreLaydown.NO_SCORE;
         }
 
         public ScoreLaydown[] getLaydowns() {

@@ -39,7 +39,7 @@ public class UI extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         game = new Game();
-        table = new Table(game.getBoard());
+        table = new Table(game);
 
         playersPane = new JPanel();
         playersPane.setLayout(new BoxLayout(playersPane, BoxLayout.PAGE_AXIS));

@@ -11,21 +11,26 @@ import javax.swing.JPanel;
 import org.doxu.iota.board.Board;
 import org.doxu.iota.board.BoardBounds;
 import org.doxu.iota.Card;
+import org.doxu.iota.Game;
+import org.doxu.iota.Location;
 
 public class Table extends JPanel implements ComponentListener {
 
     private static final Color TABLE_COLOR = new Color(153, 186, 132);
     private static final Color TABLE_BOUNDS_COLOR = new Color(90, 90, 90);
     private static final Color STARTING_CARD_COLOR = new Color(255, 0, 0);
-    private static final Color GRID_COLOR = new Color(200, 200, 255);
+    private static final Color LAST_TURN_CARD_COLOR = new Color(152, 51, 153);
+    private static final Color GRID_COLOR = new Color(200, 200, 200);
 
+    private final Game game;
     private final Board board;
 
     private int xAnchor;
     private int yAnchor;
 
-    public Table(Board board) {
-        this.board = board;
+    public Table(Game game) {
+        this.game = game;
+        this.board = game.getBoard();
         setBackground(TABLE_COLOR);
         addComponentListener(this);
         xAnchor = 12;
@@ -60,6 +65,14 @@ public class Table extends JPanel implements ComponentListener {
                     }
                 }
             }
+        }
+
+        for (Location location : game.getGameLog().getLastTurn().getLocations()) {
+            int x = (location.getX() - xTileOffset) * CardRenderer.CARD_WIDTH;
+            int y = (location.getY() - yTileOffset) * CardRenderer.CARD_WIDTH;
+            g.setColor(LAST_TURN_CARD_COLOR);
+            g.drawRect(x, y, CardRenderer.CARD_WIDTH, CardRenderer.CARD_WIDTH);
+            g.drawRect(x + 1, y + 1, CardRenderer.CARD_WIDTH - 2, CardRenderer.CARD_WIDTH - 2);
         }
     }
 
