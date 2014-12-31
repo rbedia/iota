@@ -40,11 +40,11 @@ public class GameLog {
     }
 
     public ScoreLaydown getScoreLaydown(int roundIndex, int playerIndex) {
-        if (roundIndex >= rounds.size()) {
+        if (roundIndex >= rounds.size() || roundIndex < 0) {
             return ScoreLaydown.NO_SCORE;
         }
         Round round = rounds.get(roundIndex);
-        if (playerIndex >= round.getLaydowns().length) {
+        if (playerIndex >= round.getLaydowns().length || playerIndex < 0) {
             return ScoreLaydown.NO_SCORE;
         }
         ScoreLaydown laydown = round.getLaydowns()[playerIndex];
