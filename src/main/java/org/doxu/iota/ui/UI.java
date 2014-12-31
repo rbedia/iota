@@ -15,6 +15,7 @@ import javax.swing.SwingUtilities;
 import org.doxu.iota.Game;
 import org.doxu.iota.Player;
 import org.doxu.iota.player.RandomPlayer;
+import org.doxu.iota.player.ScoreLaydown;
 import org.doxu.iota.player.SimpleHighFourPlayer;
 import org.doxu.iota.player.SimpleHighPlayer;
 import org.doxu.iota.player.SimpleHighThreePlayer;
@@ -47,9 +48,7 @@ public class UI extends JFrame {
         JPanel sidePane = new JPanel();
         sidePane.setLayout(new BoxLayout(sidePane, BoxLayout.PAGE_AXIS));
         sidePane.add(playersPane);
-        logTable = new JTable(new GameLogModel(game));
-        logTable.setPreferredScrollableViewportSize(new Dimension(400, 600));
-        logTable.setFillsViewportHeight(true);
+        logTable = createLogTable();
         JScrollPane logTableScroll = new JScrollPane(logTable);
         sidePane.add(logTableScroll);
         add(sidePane, BorderLayout.LINE_END);
@@ -59,6 +58,21 @@ public class UI extends JFrame {
 
         setSize(1350, 850);
         setLocationRelativeTo(null);
+    }
+
+    private JTable createLogTable() {
+        JTable jTable = new JTable(new GameLogModel(game));
+        jTable.setPreferredScrollableViewportSize(new Dimension(400, 600));
+        jTable.setFillsViewportHeight(true);
+        jTable.setCellSelectionEnabled(true);
+        jTable.setDefaultRenderer(ScoreLaydown.class, new ScoreLaydownRenderer());
+        jTable.setRowHeight(CardRenderer.CARD_WIDTH + CardRenderer.INSET);
+
+        GameLogSelectionListener selListener = new GameLogSelectionListener(jTable, table);
+        jTable.getSelectionModel().addListSelectionListener(selListener);
+        jTable.getColumnModel().getSelectionModel().
+                addListSelectionListener(selListener);
+        return jTable;
     }
 
     private Thread gameThread;

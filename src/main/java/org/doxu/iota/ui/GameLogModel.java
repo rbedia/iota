@@ -3,6 +3,7 @@ package org.doxu.iota.ui;
 import javax.swing.table.AbstractTableModel;
 import org.doxu.iota.Game;
 import org.doxu.iota.GameLog;
+import org.doxu.iota.player.ScoreLaydown;
 
 public class GameLogModel extends AbstractTableModel {
 
@@ -37,7 +38,15 @@ public class GameLogModel extends AbstractTableModel {
         if (columnIndex == 0) {
             return rowIndex + 1;
         }
-        return getGameLog().getScore(rowIndex, columnIndex - 1);
+        return getGameLog().getScoreLaydown(rowIndex, columnIndex - 1);
+    }
+
+    @Override
+    public Class getColumnClass(int column) {
+        if (column == 0) {
+            return String.class;
+        }
+        return ScoreLaydown.class;
     }
 
     @Override
