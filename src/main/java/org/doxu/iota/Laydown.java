@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class Laydown {
+
     private final List<Move> moves;
 
     public Laydown() {
@@ -17,6 +18,10 @@ public class Laydown {
 
     public void addMove(Move move) {
         moves.add(move);
+    }
+
+    public void clear() {
+        moves.clear();
     }
 
     public Laydown copy() {

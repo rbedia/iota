@@ -16,6 +16,7 @@ public class PlayerPanel extends JPanel {
     
     private final JLabel name;
     private final JLabel score;
+    private final Rack rack;
 
     private static final int NAME_WIDTH = 150;
     private static final int NAME_HEIGHT = 35;
@@ -27,8 +28,8 @@ public class PlayerPanel extends JPanel {
         setLayout(new FlowLayout());
         name = new JLabel(player.getDisplayName());
         name.setPreferredSize(new Dimension(NAME_WIDTH, NAME_HEIGHT));
-        Rack rack = new Rack(player);
-        score = new JLabel("xxx" + Integer.toString(player.getScore()));
+        rack = new Rack(player);
+        score = new JLabel("" + Integer.toString(player.getScore()));
         score.setPreferredSize(new Dimension(SCORE_WIDTH, SCORE_HEIGHT));
         add(name);
         add(score);
@@ -42,6 +43,10 @@ public class PlayerPanel extends JPanel {
         dim.height = (int) Math.max(dim.getHeight(), name.getPreferredSize().getHeight());
         setPreferredSize(dim);
         setMaximumSize(dim);
+
+        if (player.isHuman()) {
+            rack.addCardListener();
+        }
     }
 
     @Override
@@ -49,5 +54,9 @@ public class PlayerPanel extends JPanel {
         super.paintComponent(g);
         name.setText(player.getDisplayName());
         score.setText(Integer.toString(player.getScore()));
+    }
+
+    public Rack getRack() {
+        return rack;
     }
 }

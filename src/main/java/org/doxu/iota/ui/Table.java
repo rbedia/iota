@@ -4,9 +4,12 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JPanel;
@@ -22,22 +25,35 @@ public class Table extends JPanel implements ComponentListener {
     private static final Color TABLE_BOUNDS_COLOR = new Color(90, 90, 90);
     private static final Color STARTING_CARD_COLOR = new Color(255, 0, 0);
     private static final Color SELECTED_TURN_CARD_COLOR = new Color(152, 51, 153);
+    private static final Color NEXT_TURN_CARD_COLOR = new Color(0, 0, 0);
     private static final Color GRID_COLOR = new Color(200, 200, 200);
 
-    private final Board board;
+    private final Board gameBoard;
+    private Board board;
 
     private int xAnchor;
     private int yAnchor;
 
     private final List<Location> selection;
 
+    private final List<Location> nextTurn;
+
     public Table(Game game) {
-        this.board = game.getBoard();
+        gameBoard = game.getBoard();
+        board = gameBoard;
         setBackground(TABLE_COLOR);
         addComponentListener(this);
         xAnchor = 12;
         yAnchor = 12;
         selection = new ArrayList<>();
+        nextTurn = new ArrayList<>();
+        addClickListener(new LocationListener() {
+
+            @Override
+            public void locationClicked(Location location) {
+                System.out.println("X - " + location.getX() + " Y - " + location.getY());
+            }
+        });
     }
 
     @Override
@@ -74,6 +90,14 @@ public class Table extends JPanel implements ComponentListener {
             int x = (location.getX() - xTileOffset) * CardRenderer.CARD_WIDTH;
             int y = (location.getY() - yTileOffset) * CardRenderer.CARD_WIDTH;
             g.setColor(SELECTED_TURN_CARD_COLOR);
+            g.drawRect(x, y, CardRenderer.CARD_WIDTH, CardRenderer.CARD_WIDTH);
+            g.drawRect(x + 1, y + 1, CardRenderer.CARD_WIDTH - 2, CardRenderer.CARD_WIDTH - 2);
+        }
+
+        for (Location location : nextTurn) {
+            int x = (location.getX() - xTileOffset) * CardRenderer.CARD_WIDTH;
+            int y = (location.getY() - yTileOffset) * CardRenderer.CARD_WIDTH;
+            g.setColor(NEXT_TURN_CARD_COLOR);
             g.drawRect(x, y, CardRenderer.CARD_WIDTH, CardRenderer.CARD_WIDTH);
             g.drawRect(x + 1, y + 1, CardRenderer.CARD_WIDTH - 2, CardRenderer.CARD_WIDTH - 2);
         }
@@ -137,10 +161,53 @@ public class Table extends JPanel implements ComponentListener {
         return y - yTileOffset;
     }
 
+    private int toBoardCoordX(int x) {
+        int xTileOffset = Board.MIDDLE - xAnchor;
+        return x + xTileOffset;
+    }
+
+    private int toBoardCoordY(int y) {
+        int yTileOffset = Board.MIDDLE - yAnchor;
+        return y + yTileOffset;
+    }
+
     public void setSelection(List<Location> selection) {
         this.selection.clear();
         this.selection.addAll(selection);
         repaint();
+    }
+
+    public void setNextTurn(List<Location> nextTurn) {
+        this.nextTurn.clear();
+        this.nextTurn.addAll(nextTurn);
+        repaint();
+    }
+
+    public void addClickListener(final LocationListener locationListener) {
+        addMouseListener(new MouseAdapter() {
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                Point loc = e.getPoint();
+                int xIndex = (int) Math.floor((double) loc.x / CardRenderer.CARD_WIDTH);
+                int yIndex = (int) Math.floor((double) loc.y / CardRenderer.CARD_WIDTH);
+                int xBoard = toBoardCoordX(xIndex);
+                int yBoard = toBoardCoordY(yIndex);
+                locationListener.locationClicked(new Location(xBoard, yBoard));
+            }
+        });
+    }
+
+    public void resetBoard() {
+        board = gameBoard;
+    }
+
+    public Board getBoard() {
+        return board;
+    }
+
+    public void setBoard(Board board) {
+        this.board = board;
     }
 
     @Override

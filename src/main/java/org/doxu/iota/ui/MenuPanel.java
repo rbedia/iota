@@ -20,6 +20,9 @@ import javax.swing.event.ChangeListener;
 
 public class MenuPanel extends JPanel {
 
+    private static final String[] PLAYER_TYPES = {
+        "Simple High 4", "Simple High 3", "Simple High 2", "Simple High",
+        "Random", "Human"};
     private static final int MAX_PLAYERS = 4;
     private static final int DEFAULT_PLAYERS = 3;
     private static final int MIN_PLAYERS = 2;
@@ -31,6 +34,7 @@ public class MenuPanel extends JPanel {
     public MenuPanel(final UI ui) {
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         start = new JButton("Start");
+        start.setAlignmentX(0.5f);
         start.setMnemonic(KeyEvent.VK_S);
         start.addActionListener(new ActionListener() {
 
@@ -38,6 +42,16 @@ public class MenuPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
 //                start.setEnabled(false);
                 ui.restart(getPlayerTypes());
+            }
+        });
+        JButton submit = new JButton("Submit Turn");
+        submit.setAlignmentX(0.5f);
+        submit.setMnemonic(KeyEvent.VK_T);
+        submit.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ui.submitTurn();
             }
         });
         SpinnerModel spinnerModel = new SpinnerNumberModel(DEFAULT_PLAYERS, MIN_PLAYERS, MAX_PLAYERS, 1);
@@ -58,6 +72,7 @@ public class MenuPanel extends JPanel {
         playerSelector.add(new JLabel("Players:"));
         playerSelector.add(spinner);
         add(start);
+        add(submit);
         add(playerSelector);
         add(playerPanel);
         add(Box.createGlue());
@@ -90,7 +105,7 @@ public class MenuPanel extends JPanel {
     }
 
     public JComboBox createPlayerCombo() {
-        JComboBox combo = new JComboBox(new String[]{"Simple High 4", "Simple High 3", "Simple High 2", "Simple High", "Random"});
+        JComboBox combo = new JComboBox(PLAYER_TYPES);
         combo.setMaximumSize(new Dimension(120, 30));
         return combo;
     }

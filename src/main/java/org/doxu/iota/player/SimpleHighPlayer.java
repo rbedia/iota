@@ -15,6 +15,7 @@ import org.doxu.iota.turn.Turn;
 public class SimpleHighPlayer extends Player {
 
     public SimpleHighPlayer() {
+        super(false);
         setName("simple high");
     }
 

@@ -3,7 +3,10 @@ package org.doxu.iota.ui;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BoxLayout;
@@ -12,16 +15,25 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
+import org.doxu.iota.Card;
 import org.doxu.iota.Game;
+import org.doxu.iota.IllegalLaydownException;
+import org.doxu.iota.Laydown;
+import org.doxu.iota.Location;
+import org.doxu.iota.Move;
 import org.doxu.iota.Player;
+import org.doxu.iota.board.Board;
+import org.doxu.iota.player.HumanPlayer;
 import org.doxu.iota.player.RandomPlayer;
 import org.doxu.iota.player.ScoreLaydown;
 import org.doxu.iota.player.SimpleHighFourPlayer;
 import org.doxu.iota.player.SimpleHighPlayer;
 import org.doxu.iota.player.SimpleHighThreePlayer;
 import org.doxu.iota.player.SimpleHighTwoPlayer;
+import org.doxu.iota.turn.LaydownTurn;
+import org.doxu.iota.turn.PassTurn;
 
-public class UI extends JFrame {
+public class UI extends JFrame implements LocationListener {
 
     private Game game;
 
@@ -29,9 +41,15 @@ public class UI extends JFrame {
 
     private JPanel playersPane;
 
+    private final Map<Player, PlayerPanel> playerPanels;
+
     private JTable logTable;
 
+    private final Laydown pendingLaydown;
+
     public UI() {
+        pendingLaydown = new Laydown();
+        playerPanels = new HashMap<>();
         init();
     }
 
@@ -58,6 +76,8 @@ public class UI extends JFrame {
 
         setSize(1350, 850);
         setLocationRelativeTo(null);
+
+        table.addClickListener(this);
     }
 
     private JTable createLogTable() {
@@ -96,17 +116,67 @@ public class UI extends JFrame {
                 case "Simple High 4":
                     players.add(new SimpleHighFourPlayer());
                     break;
+                case "Human":
+                    players.add(new HumanPlayer());
+                    break;
                 default:
                     throw new IllegalArgumentException("Unknown player type: " + playerType);
             }
         }
         playersPane.removeAll();
         for (Player player : players) {
-            playersPane.add(new PlayerPanel(player));
+            PlayerPanel panel = new PlayerPanel(player);
+            playersPane.add(panel);
+            playerPanels.put(player, panel);
         }
         playersPane.revalidate();
         gameThread = new Thread(new GameRunnable(players));
         gameThread.start();
+    }
+
+    @Override
+    public void locationClicked(Location location) {
+        // get current player
+        Player player = game.getCurrentPlayer();
+        PlayerPanel panel = playerPanels.get(player);
+        Card selectedCard = panel.getRack().getSelection();
+        if (selectedCard.isBlank()) {
+            return;
+        }
+        Laydown testLaydown = pendingLaydown.copy();
+        Move testMove = new Move(location, selectedCard);
+        testLaydown.addMove(testMove);
+        // make copy of board and try to place card
+        Board testBoard = game.getBoard().overlay();
+        try {
+            testBoard.applyLaydown(testLaydown);
+            // if position is valid add to current player's move list
+            pendingLaydown.addMove(testMove);
+            table.setBoard(testBoard);
+            table.setNextTurn(pendingLaydown.getLocations());
+            System.out.println("Moves: " + pendingLaydown.getMoves().size());
+        } catch (IllegalLaydownException ex) {
+            Logger.getLogger(UI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void submitTurn() {
+        Player player = game.getCurrentPlayer();
+        if (!player.isHuman()) {
+            return;
+        }
+        HumanPlayer human = (HumanPlayer) player;
+        Laydown laydown = pendingLaydown.copy();
+        pendingLaydown.clear();
+        table.resetBoard();
+        table.setNextTurn(Collections.EMPTY_LIST);
+        // TODO clear rack selection?
+        if (laydown.getMoves().isEmpty()) {
+            human.playTurn(new PassTurn(player));
+        } else {
+            human.playTurn(new LaydownTurn(laydown, player));
+        }
+        repaint();
     }
 
     public class GameRunnable implements Runnable {

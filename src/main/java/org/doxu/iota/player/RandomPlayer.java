@@ -16,6 +16,7 @@ public class RandomPlayer extends Player {
     private final Random random = new Random();
 
     public RandomPlayer() {
+        super(false);
         setName("random");
     }
 

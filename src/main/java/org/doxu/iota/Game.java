@@ -92,7 +92,7 @@ public class Game {
         if (gameover) {
             return true;
         }
-        Player player = players.get(currentPlayer % players.size());
+        Player player = getCurrentPlayer();
         Turn turn = player.turn();
         turn.setGame(this);
         turn.execute();
@@ -107,6 +107,10 @@ public class Game {
         }
         currentPlayer++;
         return gameover;
+    }
+
+    public Player getCurrentPlayer() {
+        return players.get(currentPlayer % players.size());
     }
 
     private boolean isEndOfRound() {

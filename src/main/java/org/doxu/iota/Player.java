@@ -7,14 +7,16 @@ public abstract class Player {
 
     private String name;
     private int index;
+    private final boolean human;
     private final Hand hand;
     private Board board;
     private Deck deck;
     private int score;
 
-    public Player() {
+    public Player(boolean human) {
         name = "";
         hand = new Hand();
+        this.human = human;
     }
 
     public abstract Turn turn();
@@ -67,4 +69,7 @@ public abstract class Player {
         this.index = index;
     }
 
+    public boolean isHuman() {
+        return human;
+    }
 }
