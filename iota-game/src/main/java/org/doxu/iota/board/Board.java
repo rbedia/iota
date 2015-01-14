@@ -1,17 +1,9 @@
 package org.doxu.iota.board;
 
-import java.io.IOException;
-import java.io.Reader;
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import org.antlr.v4.runtime.ANTLRInputStream;
-import org.antlr.v4.runtime.BaseErrorListener;
-import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.RecognitionException;
-import org.antlr.v4.runtime.Recognizer;
 import org.doxu.iota.Card;
 import org.doxu.iota.IllegalLaydownException;
 import org.doxu.iota.Laydown;
@@ -63,50 +55,14 @@ public class Board {
         return board.findCard(card);
     }
 
-    public void load(String input) throws IOException, IllegalLaydownException {
-        load(new StringReader(input));
-    }
-
-    public void load(Reader reader) throws IOException, IllegalLaydownException {
-        BoardLexer l = new BoardLexer(new ANTLRInputStream(reader));
-        BoardParser p = new BoardParser(new CommonTokenStream(l));
-        p.addErrorListener(new BaseErrorListener() {
-            @Override
-            public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) {
-                throw new IllegalStateException("failed to parse at line " + line + " due to " + msg, e);
+    public void load(String[][] cards) throws IllegalLaydownException {
+        int xOffset = (BOARD_SIZE - cards[0].length) / 2;
+        int yOffset = (BOARD_SIZE - cards.length) / 2;
+        for (int i = 0; i < cards.length; i++) {
+            for (int j = 0; j < cards[i].length; j++) {
+                board.applyCard(new Location(xOffset + j, yOffset + i), Card.create(cards[i][j]));
             }
-        });
-        p.addParseListener(new BoardBaseListener() {
-            int row = 0;
-            int column = 0;
-            int maxX = 0;
-            Card[][] cards = new Card[BOARD_SIZE][BOARD_SIZE];
-
-            @Override
-            public void exitRow(BoardParser.RowContext ctx) {
-                maxX = column > maxX ? column : maxX;
-                row++;
-                column = 0;
-            }
-
-            @Override
-            public void exitCell(BoardParser.CellContext ctx) {
-                cards[column][row] = Card.create(ctx.getText());
-                column++;
-            }
-
-            @Override
-            public void exitBoard(BoardParser.BoardContext ctx) {
-                int xOffset = (BOARD_SIZE - maxX) / 2;
-                int yOffset = (BOARD_SIZE - row) / 2;
-                for (int i = 0; i < row; i++) {
-                    for (int j = 0; j < maxX; j++) {
-                        board.applyCard(new Location(xOffset + j, yOffset + i), cards[j][i]);
-                    }
-                }
-            }
-        });
-        p.board();
+        }
         validateBoard();
     }
 
@@ -270,6 +226,7 @@ public class Board {
 
     /**
      * Validates the cards in the rows and columns specified by locations.
+     *
      * @param locations
      * @throws IllegalLaydownException
      */

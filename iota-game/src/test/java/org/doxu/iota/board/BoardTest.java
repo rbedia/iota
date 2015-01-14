@@ -5,6 +5,7 @@ import org.doxu.iota.IllegalLaydownException;
 import org.doxu.iota.Laydown;
 import org.doxu.iota.Location;
 import org.doxu.iota.Move;
+import org.doxu.iota.board.loader.BoardReader;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -20,10 +21,11 @@ public class BoardTest {
 
     @Test
     public void testValidate1() throws Exception {
-        board.load(
+        String[][] cards = BoardReader.read(
                 "RS1 RS2 RS3 RS4\n"
                 + "... ... ... BS4\n"
                 + "YS1 YS2 YS3 YS4");
+        board.load(cards);
         Location loc = board.findCard(Card.create("RS1"));
         Laydown laydown = new Laydown();
         laydown.addMove(new Move(loc.down(), Card.create("BS1")));
@@ -34,10 +36,11 @@ public class BoardTest {
 
     @Test(expected = IllegalLaydownException.class)
     public void testValidate2() throws Exception {
-        board.load(
+        String[][] cards = BoardReader.read(
                 "RS1 RS2 RS3 RS4\n"
                 + "... ... ... BS4\n"
                 + "YS1 YS2 YS3 YS4");
+        board.load(cards);
         Location loc = board.findCard(Card.create("RS1"));
         Laydown laydown = new Laydown();
         laydown.addMove(new Move(loc.down(), Card.create("BS2")));
@@ -46,10 +49,11 @@ public class BoardTest {
 
     @Test(expected = IllegalLaydownException.class)
     public void testValidate3() throws Exception {
-        board.load(
+        String[][] cards = BoardReader.read(
                 "RS1 RS2 RS3 RS4\n"
                 + "... ... ... BS4\n"
                 + "YS1 YS2 YS3 YS4");
+        board.load(cards);
         Location loc = board.findCard(Card.create("RS1"));
         Laydown laydown = new Laydown();
         laydown.addMove(new Move(loc.down(), Card.create("BS1")));
@@ -59,10 +63,11 @@ public class BoardTest {
 
     @Test(expected = IllegalLaydownException.class)
     public void testValidate4() throws Exception {
-        board.load(
+        String[][] cards = BoardReader.read(
                 "RS1 RS2 RS3 RS4\n"
                 + "... ... ... BS4\n"
                 + "YS1 YS2 YS3 YS4");
+        board.load(cards);
         Location loc = board.findCard(Card.create("RS1"));
         Laydown laydown = new Laydown();
         laydown.addMove(new Move(loc.left(), Card.create("BS1")));
@@ -71,10 +76,11 @@ public class BoardTest {
 
     @Test
     public void testValidate5() throws Exception {
-        board.load(
+        String[][] cards = BoardReader.read(
                 "RS1 RS2 RS3 RS4\n"
                 + "... ... ... BS4\n"
                 + "YS1 YS2 YS3 YS4");
+        board.load(cards);
         Location loc = board.findCard(Card.create("RS4"));
         Laydown laydown = new Laydown();
         laydown.addMove(new Move(loc.up(), Card.create("GS4")));
@@ -83,10 +89,11 @@ public class BoardTest {
 
     @Test(expected = IllegalLaydownException.class)
     public void testValidate6() throws Exception {
-        board.load(
+        String[][] cards = BoardReader.read(
                 "RS1 RS2 RS3 RS4\n"
                 + "... ... ... BS4\n"
                 + "YS1 YS2 YS3 YS4");
+        board.load(cards);
         Location loc = board.findCard(Card.create("RS4"));
         Laydown laydown = new Laydown();
         laydown.addMove(new Move(loc.up(), Card.create("RS3")));
@@ -95,10 +102,11 @@ public class BoardTest {
 
     @Test
     public void testValidate7() throws Exception {
-        board.load(
+        String[][] cards = BoardReader.read(
                 "RS1 RS2 RS3 RS4\n"
                 + "... ... ... BS4\n"
                 + "YS1 YS2 YS3 YS4");
+        board.load(cards);
         Location loc = board.findCard(Card.create("RS4"));
         Laydown laydown = new Laydown();
         laydown.addMove(new Move(loc.up(), Card.create("GS4")));
