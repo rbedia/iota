@@ -1,7 +1,6 @@
 package org.doxu.iota;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import org.doxu.iota.player.ScoreLaydown;
 
@@ -26,8 +25,8 @@ public class GameLog {
         round.addLaydown(laydown);
     }
 
-    public List<Round> getRounds() {
-        return Collections.unmodifiableList(rounds);
+    public int getRounds() {
+        return rounds.size();
     }
 
     public int getPlayers() {
@@ -58,7 +57,7 @@ public class GameLog {
         return getScoreLaydown(roundIndex, playerIndex).score;
     }
 
-    public class Round {
+    private static class Round {
 
         private final ScoreLaydown[] laydowns;
 

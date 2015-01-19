@@ -15,7 +15,7 @@ public class GameLogModel extends AbstractTableModel {
 
     @Override
     public int getRowCount() {
-        return getGameLog().getRounds().size();
+        return getGameLog().getRounds();
     }
 
     @Override
