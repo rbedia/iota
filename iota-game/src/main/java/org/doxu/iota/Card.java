@@ -60,10 +60,7 @@ public class Card {
         if (this.shape != other.shape) {
             return false;
         }
-        if (this.count != other.count) {
-            return false;
-        }
-        return true;
+        return this.count == other.count;
     }
 
     @Override
