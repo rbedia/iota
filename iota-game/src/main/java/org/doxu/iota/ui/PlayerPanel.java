@@ -13,7 +13,7 @@ import org.doxu.iota.Player;
 public class PlayerPanel extends JPanel {
 
     private final Player player;
-    
+
     private final JLabel name;
     private final JLabel score;
     private final Rack rack;
