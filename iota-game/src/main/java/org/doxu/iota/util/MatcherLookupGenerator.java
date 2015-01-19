@@ -32,10 +32,10 @@ public class MatcherLookupGenerator {
 
     public static void main(String[] args) {
         Queue<Boolean> queue = new ArrayDeque<>(8);
-        for (Shape shape1 : Shape.VALID) {
-            for (Shape shape2 : Shape.VALID) {
-                for (Shape shape3 : Shape.VALID) {
-                    for (Shape shape4 : Shape.VALID) {
+        for (Shape shape1 : Shape.real()) {
+            for (Shape shape2 : Shape.real()) {
+                for (Shape shape3 : Shape.real()) {
+                    for (Shape shape4 : Shape.real()) {
                         boolean valid = validLot(Arrays.asList(card(shape1), card(shape2), card(shape3), card(shape4)));
                         queue.add(valid);
                         if (queue.size() == 8) {
