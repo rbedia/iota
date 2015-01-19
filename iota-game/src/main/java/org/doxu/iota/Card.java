@@ -1,6 +1,5 @@
 package org.doxu.iota;
 
-import java.util.Comparator;
 import java.util.Objects;
 import org.doxu.iota.attr.Color;
 import org.doxu.iota.attr.Count;
@@ -17,30 +16,6 @@ public class Card {
     private final Count count;
 
     public static final Card BLANK = new Card(Color.BLANK, Shape.BLANK, Count.BLANK);
-
-    public static final Comparator<Card> SHAPE_COMPARATOR = new Comparator<Card>() {
-
-        @Override
-        public int compare(Card o1, Card o2) {
-            return o1.getShape().compareTo(o2.getShape());
-        }
-    };
-
-    public static final Comparator<Card> COLOR_COMPARATOR = new Comparator<Card>() {
-
-        @Override
-        public int compare(Card o1, Card o2) {
-            return o1.getColor().compareTo(o2.getColor());
-        }
-    };
-
-    public static final Comparator<Card> COUNT_COMPARATOR = new Comparator<Card>() {
-
-        @Override
-        public int compare(Card o1, Card o2) {
-            return o1.getCount().compareTo(o2.getCount());
-        }
-    };
 
     public Card(Color color, Shape shape, Count count) {
         this.color = color;

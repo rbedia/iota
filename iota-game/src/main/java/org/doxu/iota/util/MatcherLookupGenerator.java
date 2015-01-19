@@ -3,6 +3,7 @@ package org.doxu.iota.util;
 import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Queue;
 import org.doxu.iota.Card;
@@ -12,8 +13,16 @@ import org.doxu.iota.attr.Shape;
 
 public class MatcherLookupGenerator {
 
-    public static boolean validLot(List<Card> lot) {
-        Collections.sort(lot, Card.SHAPE_COMPARATOR);
+    private static final Comparator<Card> SHAPE_COMPARATOR = new Comparator<Card>() {
+
+        @Override
+        public int compare(Card o1, Card o2) {
+            return o1.getShape().compareTo(o2.getShape());
+        }
+    };
+
+    private static boolean validLot(List<Card> lot) {
+        Collections.sort(lot, SHAPE_COMPARATOR);
         boolean shapeDifferent = lot.get(0).getShape() == lot.get(1).getShape();
         for (int i = 2; i < lot.size(); i++) {
             if (lot.get(i - 1).getShape() == lot.get(i).getShape() && !shapeDifferent) {
@@ -26,7 +35,7 @@ public class MatcherLookupGenerator {
         return true;
     }
 
-    public static Card card(Shape shape) {
+    private static Card card(Shape shape) {
         return new Card(Color.BLANK, shape, Count.BLANK);
     }
 
