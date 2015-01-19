@@ -40,8 +40,9 @@ public class SimpleHighTwoPlayer extends Player {
         List<ScoreLaydown> options2 = new ArrayList<>();
         for (ScoreLaydown scoreLaydown : options1) {
             for (Card card : getHand().getCards()) {
-                if (card != scoreLaydown.laydown.getCards().get(0)) {
-                    List<Location> locations = SimpleHighCommon.collectValidLocations(getBoard(), scoreLaydown.laydown.getMoves().get(0).getLocation());
+                if (!scoreLaydown.laydown.getCards().contains(card)) {
+                    Location location1 = scoreLaydown.laydown.getMoves().get(0).getLocation();
+                    List<Location> locations = SimpleHighCommon.collectValidLocations(getBoard(), location1);
                     for (Location location : locations) {
                         Laydown laydown = scoreLaydown.laydown.copy();
                         laydown.addMove(new Move(location, card));
