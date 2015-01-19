@@ -62,6 +62,9 @@ public class LotValidator {
         false, false, false, false, false, false, false, true
     };
 
+    private LotValidator() {
+    }
+
     public static void validate(List<Card> lot) throws IllegalLaydownException {
         // Lots of two or fewer cards are always valid
         if (lot.size() < MINIMUM_THRESHOLD) {
