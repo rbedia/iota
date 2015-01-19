@@ -1,12 +1,15 @@
 package org.doxu.iota.attr;
 
+import java.util.Arrays;
+import java.util.List;
+
 public enum Color implements Attribute {
 
     BLANK(-1), YELLOW(0), GREEN(1), RED(2), BLUE(3);
 
     private final int val;
 
-    public static final Color[] VALID = {YELLOW, GREEN, RED, BLUE};
+    private static final Color[] REAL = {YELLOW, GREEN, RED, BLUE};
 
     Color(int val) {
         this.val = val;
@@ -53,4 +56,7 @@ public enum Color implements Attribute {
         }
     }
 
+    public static List<Color> real() {
+        return Arrays.asList(REAL);
+    }
 }

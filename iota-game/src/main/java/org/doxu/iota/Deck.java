@@ -27,9 +27,9 @@ public class Deck {
 
     private List<Card> generateDeck() {
         List<Card> set = new ArrayList<>();
-        for (Color color : Color.VALID) {
-            for (Shape shape : Shape.VALID) {
-                for (Count count : Count.VALID) {
+        for (Color color : Color.real()) {
+            for (Shape shape : Shape.real()) {
+                for (Count count : Count.real()) {
                     set.add(new Card(color, shape, count));
                 }
             }

@@ -1,12 +1,15 @@
 package org.doxu.iota.attr;
 
+import java.util.Arrays;
+import java.util.List;
+
 public enum Shape implements Attribute {
 
     BLANK(-1), CIRCLE(0), SQUARE(1), TRIANGLE(2), CROSS(3);
 
     private final int val;
 
-    public static final Shape[] VALID = {CIRCLE, SQUARE, TRIANGLE, CROSS};
+    private static final Shape[] REAL = {CIRCLE, SQUARE, TRIANGLE, CROSS};
 
     Shape(int val) {
         this.val = val;
@@ -53,4 +56,7 @@ public enum Shape implements Attribute {
         }
     }
 
+    public static List<Shape> real() {
+        return Arrays.asList(REAL);
+    }
 }

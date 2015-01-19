@@ -1,12 +1,15 @@
 package org.doxu.iota.attr;
 
+import java.util.Arrays;
+import java.util.List;
+
 public enum Count implements Attribute {
 
     BLANK(-1), ONE(0), TWO(1), THREE(2), FOUR(3);
 
     private final int val;
 
-    public static final Count[] VALID = {ONE, TWO, THREE, FOUR};
+    private static final Count[] REAL = {ONE, TWO, THREE, FOUR};
 
     Count(int val) {
         this.val = val;
@@ -55,5 +58,9 @@ public enum Count implements Attribute {
             default:
                 throw new IllegalArgumentException();
         }
+    }
+
+    public static List<Count> real() {
+        return Arrays.asList(REAL);
     }
 }
