@@ -7,7 +7,8 @@ import java.util.List;
 public class Hand {
 
     public static final int MAX_HAND = 4;
-    private final List<Card> cards = new ArrayList<>(4);
+
+    private final List<Card> cards = new ArrayList<>(MAX_HAND);
 
     public boolean isFullHand() {
         return cardCount() == MAX_HAND;
@@ -28,17 +29,15 @@ public class Hand {
         cards.add(card);
     }
 
-    public void remove(List<Card> cardsToRemove) {
-        for (Card card : cardsToRemove) {
-            cards.remove(card);
-        }
+    public boolean remove(List<Card> cardsToRemove) {
+        return cards.removeAll(cardsToRemove);
     }
 
-    public void remove(Card card) {
+    public boolean remove(Card card) {
         if (cards.isEmpty()) {
             throw new IllegalStateException("Hand doesn't have any cards.");
         }
-        cards.remove(card);
+        return cards.remove(card);
     }
 
     public List<Card> getCards() {
