@@ -74,18 +74,4 @@ public class BoardReader {
             return cards;
         }
     }
-
-    public static void main(String[] args) throws IOException {
-        BoardReader loader = new BoardReader();
-        String[][] cards = loader.read(
-                "RS1 RS2 RS3 RS4\n"
-                + "... ... ... BS4 GS4\n"
-                + "YS1 YS2 YS3 YS4");
-        for (String[] card : cards) {
-            for (String card1 : card) {
-                System.out.print(card1 + " ");
-            }
-            System.out.println();
-        }
-    }
 }
