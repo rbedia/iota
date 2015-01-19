@@ -46,107 +46,71 @@ public class SimpleHighCommon {
         return locations;
     }
 
-    public static List<Location> collectValidLocations(Board board, Location startingLocation) {
+    public static List<Location> collectValidLocations(Board board, Location... used) {
+        if (used.length == 0) {
+            throw new IllegalArgumentException("Must specify at least one Location");
+        }
+        if (used.length == 1) {
+            return collectValidLocationsSingle(board, used[0]);
+        }
         List<Location> locations = new ArrayList<>();
-        // Search left
+        boolean horizontal = used[0].getY() == used[1].getY();
+        if (horizontal) {
+            // Search left
+            Location leftLocation = Location.getLeftmost(used);
+            locations.add(searchLeft(leftLocation, board));
+            // Search right
+            Location rightLocation = Location.getRightmost(used);
+            locations.add(searchRight(rightLocation, board));
+        } else {
+            // Search up
+            Location topLocation = Location.getTopmost(used);
+            locations.add(searchUp(topLocation, board));
+            // Search down
+            Location bottomLocation = Location.getBottommost(used);
+            locations.add(searchDown(bottomLocation, board));
+        }
+        return locations;
+    }
+
+    private static List<Location> collectValidLocationsSingle(Board board, Location startingLocation) {
+        List<Location> locations = new ArrayList<>();
+        locations.add(searchLeft(startingLocation, board));
+        locations.add(searchRight(startingLocation, board));
+        locations.add(searchUp(startingLocation, board));
+        locations.add(searchDown(startingLocation, board));
+        return locations;
+    }
+
+    private static Location searchDown(Location startingLocation, Board board) {
+        Location location = startingLocation.down();
+        while (board.isOverlappingCard(location)) {
+            location = location.down();
+        }
+        return location;
+    }
+
+    private static Location searchUp(Location startingLocation, Board board) {
+        Location location = startingLocation.up();
+        while (board.isOverlappingCard(location)) {
+            location = location.up();
+        }
+        return location;
+    }
+
+    private static Location searchRight(Location startingLocation, Board board) {
+        Location location = startingLocation.right();
+        while (board.isOverlappingCard(location)) {
+            location = location.right();
+        }
+        return location;
+    }
+
+    private static Location searchLeft(Location startingLocation, Board board) {
         Location location = startingLocation.left();
         while (board.isOverlappingCard(location)) {
             location = location.left();
         }
-        locations.add(location);
-        // Search right
-        location = startingLocation.right();
-        while (board.isOverlappingCard(location)) {
-            location = location.right();
-        }
-        locations.add(location);
-        // Search up
-        location = startingLocation.up();
-        while (board.isOverlappingCard(location)) {
-            location = location.up();
-        }
-        locations.add(location);
-        // Search down
-        location = startingLocation.down();
-        while (board.isOverlappingCard(location)) {
-            location = location.down();
-        }
-        locations.add(location);
-
-        return locations;
-    }
-
-    public static List<Location> collectValidLocations(Board board, Location location1, Location location2) {
-        List<Location> locations = new ArrayList<>();
-        boolean horizontal = location1.getY() == location2.getY();
-        if (horizontal) {
-            // Search left
-            Location leftLocation = location1.getX() < location2.getX() ? location1 : location2;
-            Location location = leftLocation.left();
-            while (board.isOverlappingCard(location)) {
-                location = location.left();
-            }
-            locations.add(location);
-            // Search right
-            Location rightLocation = location1.getX() > location2.getX() ? location1 : location2;
-            location = rightLocation.right();
-            while (board.isOverlappingCard(location)) {
-                location = location.right();
-            }
-            locations.add(location);
-        } else {
-            // Search up
-            Location topLocation = location1.getY() < location2.getY() ? location1 : location2;
-            Location location = topLocation.up();
-            while (board.isOverlappingCard(location)) {
-                location = location.up();
-            }
-            locations.add(location);
-            // Search down
-            Location bottomLocation = location1.getY() > location2.getY() ? location1 : location2;
-            location = bottomLocation.down();
-            while (board.isOverlappingCard(location)) {
-                location = location.down();
-            }
-            locations.add(location);
-        }
-        return locations;
-    }
-
-    public static List<Location> collectValidLocations(Board board, Location location1, Location location2, Location location3) {
-        List<Location> locations = new ArrayList<>();
-        boolean horizontal = location1.getY() == location2.getY();
-        if (horizontal) {
-            // Search left
-            Location leftLocation = Location.getLeftmost(location1, location2, location3);
-            Location location = leftLocation.left();
-            while (board.isOverlappingCard(location)) {
-                location = location.left();
-            }
-            locations.add(location);
-            // Search right
-            Location rightLocation = Location.getRightmost(location1, location2, location3);
-            location = rightLocation.right();
-            while (board.isOverlappingCard(location)) {
-                location = location.right();
-            }
-            locations.add(location);
-        } else {
-            // Search up
-            Location topLocation = Location.getTopmost(location1, location2, location3);
-            Location location = topLocation.up();
-            while (board.isOverlappingCard(location)) {
-                location = location.up();
-            }
-            locations.add(location);
-            // Search down
-            Location bottomLocation = Location.getBottommost(location1, location2, location3);
-            location = bottomLocation.down();
-            while (board.isOverlappingCard(location)) {
-                location = location.down();
-            }
-            locations.add(location);
-        }
-        return locations;
+        return location;
     }
 }
