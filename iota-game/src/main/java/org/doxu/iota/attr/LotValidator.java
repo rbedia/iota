@@ -6,6 +6,10 @@ import org.doxu.iota.IllegalLaydownException;
 
 public class LotValidator {
 
+    private static final int MAXIMUM_THRESHOLD = 4;
+
+    private static final int MINIMUM_THRESHOLD = 2;
+
     private static final boolean[] LOOKUP_3_CARD = {
         true, false, false, false, false, false, true, true,
         false, true, false, true, false, true, true, false,
@@ -54,11 +58,11 @@ public class LotValidator {
 
     public static void validate(List<Card> lot) throws IllegalLaydownException {
         // Lots of two or fewer cards are always valid
-        if (lot.size() <= 2) {
+        if (lot.size() <= MINIMUM_THRESHOLD) {
             return;
         }
         // Lots of 5 or more cards are always invalid
-        if (lot.size() > 4) {
+        if (lot.size() > MAXIMUM_THRESHOLD) {
             throw new IllegalLaydownException("A maximum of 4 cards can be in a lot.");
         }
         if (lot.size() == 3) {

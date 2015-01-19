@@ -17,6 +17,8 @@ public class Board {
 
     public static final int MIDDLE = (BOARD_SIZE + 1) / 2;
 
+    private static final int LOT_SIZE = 4;
+
     private final BoardView board;
 
     public Board() {
@@ -97,7 +99,7 @@ public class Board {
                 hCounted.add(move.getCard());
                 rowLength++;
             }
-            if (rowLength == 4) {
+            if (rowLength == LOT_SIZE) {
                 lots++;
             }
             rowLength = 0;
@@ -116,7 +118,7 @@ public class Board {
                 vCounted.add(move.getCard());
                 rowLength++;
             }
-            if (rowLength == 4) {
+            if (rowLength == LOT_SIZE) {
                 lots++;
             }
         }

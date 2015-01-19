@@ -8,6 +8,8 @@ import org.doxu.iota.attr.Shape;
 
 public class Card {
 
+    private static final int ATTRIBUTE_COUNT = 3;
+
     private final Color color;
 
     private final Shape shape;
@@ -47,7 +49,7 @@ public class Card {
     }
 
     public static Card create(String attributes) {
-        if (attributes == null || attributes.length() != 3) {
+        if (attributes == null || attributes.length() != ATTRIBUTE_COUNT) {
             throw new IllegalArgumentException();
         }
         Color color = Color.fromChar(attributes.charAt(0));
