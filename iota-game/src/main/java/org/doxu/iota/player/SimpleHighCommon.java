@@ -6,7 +6,10 @@ import org.doxu.iota.board.Board;
 import org.doxu.iota.Card;
 import org.doxu.iota.Deck;
 import org.doxu.iota.Hand;
+import org.doxu.iota.IllegalLaydownException;
+import org.doxu.iota.Laydown;
 import org.doxu.iota.Location;
+import org.doxu.iota.Move;
 import org.doxu.iota.Player;
 import org.doxu.iota.turn.PassTurn;
 import org.doxu.iota.turn.TradeTurn;
@@ -71,6 +74,51 @@ public class SimpleHighCommon {
             locations.add(searchDown(bottomLocation, board));
         }
         return locations;
+    }
+
+    public static List<ScoreLaydown> findOptions(Hand hand, Board board) {
+        List<ScoreLaydown> options = new ArrayList<>();
+        for (Card card : hand.getCards()) {
+            List<Location> locations = SimpleHighCommon.collectValidLocations(board);
+            while (!locations.isEmpty()) {
+                Location location = locations.remove(0);
+                Laydown laydown = new Laydown();
+                laydown.addMove(new Move(location, card));
+                try {
+                    Board boardCopy = board.overlay();
+                    int score = boardCopy.applyLaydown(laydown);
+                    options.add(new ScoreLaydown(score, laydown));
+                } catch (IllegalLaydownException ex) {
+                }
+            }
+        }
+        return options;
+    }
+
+    public static List<ScoreLaydown> findOptions(Hand hand, Board board, List<ScoreLaydown> input, boolean doubleScore) {
+        List<ScoreLaydown> options = new ArrayList<>();
+        for (ScoreLaydown scoreLaydown : input) {
+            for (Card card : hand.getCards()) {
+                if (!scoreLaydown.laydown.contains(card)) {
+                    List<Location> laydownLocations = scoreLaydown.laydown.getLocations();
+                    List<Location> locations = SimpleHighCommon.collectValidLocations(board, laydownLocations);
+                    for (Location location : locations) {
+                        Laydown laydown = scoreLaydown.laydown.copy();
+                        laydown.addMove(new Move(location, card));
+                        try {
+                            Board boardCopy = board.overlay();
+                            int score = boardCopy.applyLaydown(laydown);
+                            if (doubleScore) {
+                                score *= 2;
+                            }
+                            options.add(new ScoreLaydown(score, laydown));
+                        } catch (IllegalLaydownException ex) {
+                        }
+                    }
+                }
+            }
+        }
+        return options;
     }
 
     private static List<Location> collectValidLocationsSingle(Board board, Location startingLocation) {

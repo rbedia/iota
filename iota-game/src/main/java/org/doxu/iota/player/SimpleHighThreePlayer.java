@@ -1,15 +1,8 @@
 package org.doxu.iota.player;
 
 import org.doxu.iota.Player;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.PriorityQueue;
-import org.doxu.iota.board.Board;
-import org.doxu.iota.Card;
-import org.doxu.iota.IllegalLaydownException;
-import org.doxu.iota.Laydown;
-import org.doxu.iota.Location;
-import org.doxu.iota.Move;
 import org.doxu.iota.turn.LaydownTurn;
 import org.doxu.iota.turn.Turn;
 
@@ -22,59 +15,9 @@ public class SimpleHighThreePlayer extends Player {
 
     @Override
     public Turn turn() {
-        List<ScoreLaydown> options1 = new ArrayList<>();
-        for (Card card : getHand().getCards()) {
-            List<Location> locations = SimpleHighCommon.collectValidLocations(getBoard());
-            while (!locations.isEmpty()) {
-                Location location = locations.remove(0);
-                Laydown laydown = new Laydown();
-                laydown.addMove(new Move(location, card));
-                try {
-                    Board boardCopy = getBoard().overlay();
-                    int score = boardCopy.applyLaydown(laydown);
-                    options1.add(new ScoreLaydown(score, laydown));
-                } catch (IllegalLaydownException ex) {
-                }
-            }
-        }
-        List<ScoreLaydown> options2 = new ArrayList<>();
-        for (ScoreLaydown scoreLaydown : options1) {
-            for (Card card : getHand().getCards()) {
-                if (!scoreLaydown.laydown.contains(card)) {
-                    List<Location> laydownLocations = scoreLaydown.laydown.getLocations();
-                    List<Location> locations = SimpleHighCommon.collectValidLocations(getBoard(), laydownLocations);
-                    for (Location location : locations) {
-                        Laydown laydown = scoreLaydown.laydown.copy();
-                        laydown.addMove(new Move(location, card));
-                        try {
-                            Board boardCopy = getBoard().overlay();
-                            int score = boardCopy.applyLaydown(laydown);
-                            options2.add(new ScoreLaydown(score, laydown));
-                        } catch (IllegalLaydownException ex) {
-                        }
-                    }
-                }
-            }
-        }
-        List<ScoreLaydown> options3 = new ArrayList<>();
-        for (ScoreLaydown scoreLaydown : options2) {
-            for (Card card : getHand().getCards()) {
-                if (!scoreLaydown.laydown.contains(card)) {
-                    List<Location> laydownLocations = scoreLaydown.laydown.getLocations();
-                    List<Location> locations = SimpleHighCommon.collectValidLocations(getBoard(), laydownLocations);
-                    for (Location location : locations) {
-                        Laydown laydown = scoreLaydown.laydown.copy();
-                        laydown.addMove(new Move(location, card));
-                        try {
-                            Board boardCopy = getBoard().overlay();
-                            int score = boardCopy.applyLaydown(laydown);
-                            options3.add(new ScoreLaydown(score, laydown));
-                        } catch (IllegalLaydownException ex) {
-                        }
-                    }
-                }
-            }
-        }
+        List<ScoreLaydown> options1 = SimpleHighCommon.findOptions(getHand(), getBoard());
+        List<ScoreLaydown> options2 = SimpleHighCommon.findOptions(getHand(), getBoard(), options1, false);
+        List<ScoreLaydown> options3 = SimpleHighCommon.findOptions(getHand(), getBoard(), options2, false);
         PriorityQueue<ScoreLaydown> options = new PriorityQueue<>();
         options.addAll(options1);
         options.addAll(options2);
