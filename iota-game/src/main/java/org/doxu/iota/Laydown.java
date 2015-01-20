@@ -47,4 +47,13 @@ public class Laydown {
         }
         return locations;
     }
+
+    public boolean contains(Card card) {
+        for (Move move : moves) {
+            if (move.getCard().equals(card)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
