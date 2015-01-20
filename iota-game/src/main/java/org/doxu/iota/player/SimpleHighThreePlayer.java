@@ -41,8 +41,8 @@ public class SimpleHighThreePlayer extends Player {
         for (ScoreLaydown scoreLaydown : options1) {
             for (Card card : getHand().getCards()) {
                 if (!scoreLaydown.laydown.contains(card)) {
-                    Location location1 = scoreLaydown.laydown.getMoves().get(0).getLocation();
-                    List<Location> locations = SimpleHighCommon.collectValidLocations(getBoard(), location1);
+                    List<Location> laydownLocations = scoreLaydown.laydown.getLocations();
+                    List<Location> locations = SimpleHighCommon.collectValidLocations(getBoard(), laydownLocations);
                     for (Location location : locations) {
                         Laydown laydown = scoreLaydown.laydown.copy();
                         laydown.addMove(new Move(location, card));
@@ -60,9 +60,8 @@ public class SimpleHighThreePlayer extends Player {
         for (ScoreLaydown scoreLaydown : options2) {
             for (Card card : getHand().getCards()) {
                 if (!scoreLaydown.laydown.contains(card)) {
-                    Location location1 = scoreLaydown.laydown.getMoves().get(0).getLocation();
-                    Location location2 = scoreLaydown.laydown.getMoves().get(1).getLocation();
-                    List<Location> locations = SimpleHighCommon.collectValidLocations(getBoard(), location1, location2);
+                    List<Location> laydownLocations = scoreLaydown.laydown.getLocations();
+                    List<Location> locations = SimpleHighCommon.collectValidLocations(getBoard(), laydownLocations);
                     for (Location location : locations) {
                         Laydown laydown = scoreLaydown.laydown.copy();
                         laydown.addMove(new Move(location, card));

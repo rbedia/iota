@@ -1,5 +1,7 @@
 package org.doxu.iota;
 
+import java.util.List;
+
 public class Location {
 
     public enum Direction {
@@ -38,41 +40,41 @@ public class Location {
         return y;
     }
 
-    public static Location getLeftmost(Location... locations) {
-        Location loc = locations[0];
-        for (int i = 1; i < locations.length; i++) {
-            if (locations[i].getX() < loc.getX()) {
-                loc = locations[i];
+    public static Location getLeftmost(List<Location> locations) {
+        Location loc = locations.get(0);
+        for (int i = 1; i < locations.size(); i++) {
+            if (locations.get(i).getX() < loc.getX()) {
+                loc = locations.get(i);
             }
         }
         return loc;
     }
 
-    public static Location getRightmost(Location... locations) {
-        Location loc = locations[0];
-        for (int i = 1; i < locations.length; i++) {
-            if (locations[i].getX() > loc.getX()) {
-                loc = locations[i];
+    public static Location getRightmost(List<Location> locations) {
+        Location loc = locations.get(0);
+        for (int i = 1; i < locations.size(); i++) {
+            if (locations.get(i).getX() > loc.getX()) {
+                loc = locations.get(i);
             }
         }
         return loc;
     }
 
-    public static Location getTopmost(Location... locations) {
-        Location loc = locations[0];
-        for (int i = 1; i < locations.length; i++) {
-            if (locations[i].getY() < loc.getY()) {
-                loc = locations[i];
+    public static Location getTopmost(List<Location> locations) {
+        Location loc = locations.get(0);
+        for (int i = 1; i < locations.size(); i++) {
+            if (locations.get(i).getY() < loc.getY()) {
+                loc = locations.get(i);
             }
         }
         return loc;
     }
 
-    public static Location getBottommost(Location... locations) {
-        Location loc = locations[0];
-        for (int i = 1; i < locations.length; i++) {
-            if (locations[i].getY() > loc.getY()) {
-                loc = locations[i];
+    public static Location getBottommost(List<Location> locations) {
+        Location loc = locations.get(0);
+        for (int i = 1; i < locations.size(); i++) {
+            if (locations.get(i).getY() > loc.getY()) {
+                loc = locations.get(i);
             }
         }
         return loc;

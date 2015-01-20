@@ -46,15 +46,15 @@ public class SimpleHighCommon {
         return locations;
     }
 
-    public static List<Location> collectValidLocations(Board board, Location... used) {
-        if (used.length == 0) {
+    public static List<Location> collectValidLocations(Board board, List<Location> used) {
+        if (used.isEmpty()) {
             throw new IllegalArgumentException("Must specify at least one Location");
         }
-        if (used.length == 1) {
-            return collectValidLocationsSingle(board, used[0]);
+        if (used.size() == 1) {
+            return collectValidLocationsSingle(board, used.get(0));
         }
         List<Location> locations = new ArrayList<>();
-        boolean horizontal = used[0].getY() == used[1].getY();
+        boolean horizontal = used.get(0).getY() == used.get(1).getY();
         if (horizontal) {
             // Search left
             Location leftLocation = Location.getLeftmost(used);
