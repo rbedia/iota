@@ -76,12 +76,11 @@ public class SimpleHighCommon {
         return locations;
     }
 
-    public static List<ScoreLaydown> findOptions(Hand hand, Board board) {
+    public static List<ScoreLaydown> findOptions(List<Card> cards, Board board) {
         List<ScoreLaydown> options = new ArrayList<>();
-        for (Card card : hand.getCards()) {
-            List<Location> locations = SimpleHighCommon.collectValidLocations(board);
-            while (!locations.isEmpty()) {
-                Location location = locations.remove(0);
+        List<Location> locations = SimpleHighCommon.collectValidLocations(board);
+        for (Card card : cards) {
+            for (Location location : locations) {
                 Laydown laydown = new Laydown();
                 laydown.addMove(new Move(location, card));
                 try {
@@ -95,10 +94,10 @@ public class SimpleHighCommon {
         return options;
     }
 
-    public static List<ScoreLaydown> findOptions(Hand hand, Board board, List<ScoreLaydown> input, boolean doubleScore) {
+    public static List<ScoreLaydown> findOptions(List<Card> cards, Board board, List<ScoreLaydown> input, boolean doubleScore) {
         List<ScoreLaydown> options = new ArrayList<>();
         for (ScoreLaydown scoreLaydown : input) {
-            for (Card card : hand.getCards()) {
+            for (Card card : cards) {
                 if (!scoreLaydown.laydown.contains(card)) {
                     List<Location> laydownLocations = scoreLaydown.laydown.getLocations();
                     List<Location> locations = SimpleHighCommon.collectValidLocations(board, laydownLocations);

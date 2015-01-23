@@ -3,6 +3,7 @@ package org.doxu.iota.player;
 import org.doxu.iota.Player;
 import java.util.List;
 import java.util.PriorityQueue;
+import org.doxu.iota.Card;
 import org.doxu.iota.turn.LaydownTurn;
 import org.doxu.iota.turn.Turn;
 
@@ -15,7 +16,8 @@ public class SimpleHighPlayer extends Player {
 
     @Override
     public Turn turn() {
-        List<ScoreLaydown> options1 = SimpleHighCommon.findOptions(getHand(), getBoard());
+        List<Card> cards = getHand().getCards();
+        List<ScoreLaydown> options1 = SimpleHighCommon.findOptions(cards, getBoard());
         PriorityQueue<ScoreLaydown> options = new PriorityQueue<>();
         options.addAll(options1);
         if (!options.isEmpty()) {
