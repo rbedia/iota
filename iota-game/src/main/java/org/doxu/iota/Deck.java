@@ -11,6 +11,11 @@ import org.doxu.iota.attr.Shape;
 
 public class Deck {
 
+    /**
+     * Number of cards in a full deck.
+     */
+    public static final int FULL_DECK = 4 * 4 * 4;
+
     private final Queue<Card> cards;
 
     public Deck() {
