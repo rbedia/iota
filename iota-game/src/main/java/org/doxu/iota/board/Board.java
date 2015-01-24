@@ -53,6 +53,13 @@ public class Board {
         return board.getBounds();
     }
 
+    /**
+     * Returns the location of the card on the board or null if the card isn't
+     * on the board.
+     *
+     * @param card Card o search for.
+     * @return Location of the card or null if it isn't on the board.
+     */
     public Location findCard(Card card) {
         return board.findCard(card);
     }
