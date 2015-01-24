@@ -2,7 +2,9 @@ package org.doxu.iota.turn;
 
 import java.util.List;
 import org.doxu.iota.Card;
+import org.doxu.iota.Game;
 import org.doxu.iota.Player;
+import org.doxu.iota.player.ScoreLaydown;
 
 public class TradeTurn extends BaseTurn {
 
@@ -14,16 +16,12 @@ public class TradeTurn extends BaseTurn {
     }
 
     @Override
-    public void execute() {
+    public ScoreLaydown execute(Game game) {
         System.out.println("Player " + player.getDisplayName() + " is trading " + cards.size() + " cards.");
-        tradeCards(cards, player);
-    }
-
-    public void tradeCards(List<Card> cards, Player player) {
-        setNoScoreLog();
+        // Check that the player has all of the cards they want to trade.
         for (Card card : cards) {
             if (!player.getHand().getCards().contains(card)) {
-                return;
+                return noScoreLaydown();
             }
         }
         if (game.getDeck().count() >= cards.size()) {
@@ -31,6 +29,7 @@ public class TradeTurn extends BaseTurn {
             game.getDeck().addToBottom(cards);
             game.deal(player);
         }
+        return noScoreLaydown();
     }
 
 }

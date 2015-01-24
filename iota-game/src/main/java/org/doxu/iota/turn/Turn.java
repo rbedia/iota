@@ -4,7 +4,5 @@ import org.doxu.iota.Game;
 import org.doxu.iota.player.ScoreLaydown;
 
 public interface Turn {
-    void execute();
-    ScoreLaydown log();
-    void setGame(Game game);
+    ScoreLaydown execute(Game game);
 }

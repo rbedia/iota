@@ -94,9 +94,7 @@ public class Game {
         }
         Player player = getCurrentPlayer();
         Turn turn = player.turn();
-        turn.setGame(this);
-        turn.execute();
-        ScoreLaydown scoreLog = turn.log();
+        ScoreLaydown scoreLog = turn.execute(this);
         gameLog.addLaydown(scoreLog);
         if (passCount == players.size()) {
             System.out.println("Everyone passed. Game over.");

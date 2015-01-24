@@ -1,6 +1,8 @@
 package org.doxu.iota.turn;
 
+import org.doxu.iota.Game;
 import org.doxu.iota.Player;
+import org.doxu.iota.player.ScoreLaydown;
 
 public class PassTurn extends BaseTurn {
 
@@ -9,9 +11,9 @@ public class PassTurn extends BaseTurn {
     }
 
     @Override
-    public void execute() {
+    public ScoreLaydown execute(Game game) {
         game.pass(player);
-        setNoScoreLog();
+        return noScoreLaydown();
     }
 
 }

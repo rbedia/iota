@@ -1,5 +1,6 @@
 package org.doxu.iota.turn;
 
+import org.doxu.iota.Game;
 import org.doxu.iota.Hand;
 import org.doxu.iota.IllegalLaydownException;
 import org.doxu.iota.Laydown;
@@ -16,11 +17,7 @@ public class LaydownTurn extends BaseTurn {
     }
 
     @Override
-    public void execute() {
-        laydown(laydown, player);
-    }
-
-    private void laydown(Laydown laydown, Player player) {
+    public ScoreLaydown execute(Game game) {
         try {
             // TODO verify that all cards in laydown came from player's hand
             int score = game.getBoard().applyLaydown(laydown);
@@ -37,9 +34,11 @@ public class LaydownTurn extends BaseTurn {
             }
             player.addScore(score);
             game.resetPassCount();
-            setTurnLog(new ScoreLaydown(score, laydown));
+            return new ScoreLaydown(score, laydown);
         } catch (IllegalLaydownException ex) {
             System.out.println(ex.getMessage());
         }
+        // If the player submits an invalid laydown they get no points.
+        return noScoreLaydown();
     }
 }
