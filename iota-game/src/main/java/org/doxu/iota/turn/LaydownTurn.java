@@ -11,13 +11,12 @@ public class LaydownTurn extends BaseTurn {
 
     private final Laydown laydown;
 
-    public LaydownTurn(Laydown laydown, Player player) {
-        super(player);
+    public LaydownTurn(Laydown laydown) {
         this.laydown = laydown;
     }
 
     @Override
-    public ScoreLaydown execute(Game game) {
+    public ScoreLaydown execute(Game game, Player player) {
         try {
             // TODO verify that all cards in laydown came from player's hand
             int score = game.getBoard().applyLaydown(laydown);

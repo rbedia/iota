@@ -172,9 +172,9 @@ public class UI extends JFrame implements LocationListener {
         table.setNextTurn(Collections.EMPTY_LIST);
         // TODO clear rack selection?
         if (laydown.getMoves().isEmpty()) {
-            human.playTurn(new PassTurn(player));
+            human.playTurn(new PassTurn());
         } else {
-            human.playTurn(new LaydownTurn(laydown, player));
+            human.playTurn(new LaydownTurn(laydown));
         }
         repaint();
     }

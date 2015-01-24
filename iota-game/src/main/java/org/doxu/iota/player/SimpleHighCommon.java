@@ -26,9 +26,9 @@ public class SimpleHighCommon {
             tradeCards.add(hand.getCards().get(i));
         }
         if (tradeCards.size() > 0) {
-            return new TradeTurn(tradeCards, player);
+            return new TradeTurn(tradeCards);
         } else {
-            return new PassTurn(player);
+            return new PassTurn();
         }
     }
 

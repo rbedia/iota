@@ -22,7 +22,7 @@ public class SimpleHighPlayer extends Player {
         options.addAll(options1);
         if (!options.isEmpty()) {
             ScoreLaydown scoreLaydown = options.remove();
-            return new LaydownTurn(scoreLaydown.laydown, this);
+            return new LaydownTurn(scoreLaydown.laydown);
         }
         return SimpleHighCommon.basicTrade(getDeck(), getHand(), this);
     }

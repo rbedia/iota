@@ -24,7 +24,7 @@ public class HumanPlayer extends Player {
         } catch (InterruptedException ex) {
             Logger.getLogger(HumanPlayer.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return new PassTurn(this);
+        return new PassTurn();
     }
 
     public void playTurn(Turn turn) {

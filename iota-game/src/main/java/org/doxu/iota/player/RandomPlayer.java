@@ -30,7 +30,7 @@ public class RandomPlayer extends Player {
                 laydown.addMove(new Move(location, card));
                 try {
                     getBoard().validLaydown(laydown);
-                    return new LaydownTurn(laydown, this);
+                    return new LaydownTurn(laydown);
                 } catch (IllegalLaydownException ex) {
                 }
             }

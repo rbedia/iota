@@ -10,13 +10,12 @@ public class TradeTurn extends BaseTurn {
 
     private final List<Card> cards;
 
-    public TradeTurn(List<Card> cards, Player player) {
-        super(player);
+    public TradeTurn(List<Card> cards) {
         this.cards = cards;
     }
 
     @Override
-    public ScoreLaydown execute(Game game) {
+    public ScoreLaydown execute(Game game, Player player) {
         System.out.println("Player " + player.getDisplayName() + " is trading " + cards.size() + " cards.");
         // Check that the player has all of the cards they want to trade.
         for (Card card : cards) {

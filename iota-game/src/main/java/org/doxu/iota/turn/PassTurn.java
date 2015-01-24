@@ -6,12 +6,8 @@ import org.doxu.iota.player.ScoreLaydown;
 
 public class PassTurn extends BaseTurn {
 
-    public PassTurn(Player player) {
-        super(player);
-    }
-
     @Override
-    public ScoreLaydown execute(Game game) {
+    public ScoreLaydown execute(Game game, Player player) {
         game.pass(player);
         return noScoreLaydown();
     }
