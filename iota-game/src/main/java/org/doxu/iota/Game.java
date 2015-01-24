@@ -125,7 +125,7 @@ public class Game {
     }
 
     private int getRound() {
-        return (int) Math.floor((currentPlayer + 1) / players.size());
+        return (int) Math.floor((currentPlayer + 1) / (double) players.size());
     }
 
     public void printDeck() {

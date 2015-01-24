@@ -129,11 +129,11 @@ public class Table extends JPanel implements ComponentListener {
     }
 
     private int getTableWidth() {
-        return (int) Math.floor(getWidth() / CardRenderer.CARD_WIDTH);
+        return (int) Math.floor(getWidth() / (double) CardRenderer.CARD_WIDTH);
     }
 
     private int getTableHeight() {
-        return (int) Math.floor(getHeight() / CardRenderer.CARD_WIDTH);
+        return (int) Math.floor(getHeight() / (double) CardRenderer.CARD_WIDTH);
     }
 
     private Rectangle getTableBounds() {
