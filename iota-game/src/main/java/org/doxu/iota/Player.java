@@ -45,6 +45,10 @@ public abstract class Player {
         score += moveScore;
     }
 
+    public void resetScore() {
+        score = 0;
+    }
+
     public String getDisplayName() {
         return index + " " + name;
     }

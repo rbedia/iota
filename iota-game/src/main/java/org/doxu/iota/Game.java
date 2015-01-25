@@ -51,6 +51,8 @@ public class Game {
             player.setBoard(board);
             player.setIndex(index);
             player.setDeck(deck);
+            player.getHand().clear();
+            player.resetScore();
         }
     }
 
@@ -100,8 +102,9 @@ public class Game {
             System.out.println("Everyone passed. Game over.");
             gameover = true;
         }
-        if (isEndOfRound()) {
-            printEndOfRound();
+        // Fail safe to prevent getting stuck in a loop.
+        if (isEndOfRound() && getRound() == 50) {
+            gameover = true;
         }
         currentPlayer++;
         return gameover;
@@ -111,11 +114,25 @@ public class Game {
         return players.get(currentPlayer % players.size());
     }
 
-    private boolean isEndOfRound() {
+    public boolean isEndOfRound() {
         return currentPlayer % players.size() == players.size() - 1;
     }
 
-    private void printEndOfRound() {
+    public Player getWinner() {
+        Player winner = players.get(0);
+        int bestScore = winner.getScore();
+        for (int i = 1; i < players.size(); i++) {
+            Player player = players.get(i);
+            // XXX how to handle ties?
+            if (player.getScore() > bestScore) {
+                winner = player;
+                bestScore = player.getScore();
+            }
+        }
+        return winner;
+    }
+
+    public void printEndOfRound() {
         int round = getRound();
         System.out.println("End of round " + round + ":");
         for (Player player : players) {

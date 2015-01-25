@@ -21,7 +21,9 @@ public class Main {
         game.printHands();
         game.playStartingCard();
         while (!game.step()) {
-
+            if (game.isEndOfRound()) {
+                game.printEndOfRound();
+            }
         }
         game.printHands();
     }
