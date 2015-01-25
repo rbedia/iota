@@ -24,6 +24,7 @@ import org.doxu.iota.Move;
 import org.doxu.iota.Player;
 import org.doxu.iota.board.Board;
 import org.doxu.iota.player.HumanPlayer;
+import org.doxu.iota.player.MinimizerPlayer;
 import org.doxu.iota.player.RandomPlayer;
 import org.doxu.iota.player.ScoreLaydown;
 import org.doxu.iota.player.SimpleHighFourPlayer;
@@ -115,6 +116,9 @@ public class UI extends JFrame implements LocationListener {
                     break;
                 case "Simple High 4":
                     players.add(new SimpleHighFourPlayer());
+                    break;
+                case "Minimizer":
+                    players.add(new MinimizerPlayer());
                     break;
                 case "Human":
                     players.add(new HumanPlayer());

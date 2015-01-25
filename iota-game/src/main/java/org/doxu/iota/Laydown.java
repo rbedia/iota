@@ -56,4 +56,13 @@ public class Laydown {
         }
         return false;
     }
+
+    public boolean contains(Location location) {
+        for (Move move : moves) {
+            if (move.getLocation().equals(location)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

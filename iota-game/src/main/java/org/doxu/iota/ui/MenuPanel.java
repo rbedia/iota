@@ -22,7 +22,7 @@ public class MenuPanel extends JPanel {
 
     private static final String[] PLAYER_TYPES = {
         "Simple High 4", "Simple High 3", "Simple High 2", "Simple High",
-        "Random", "Human"};
+        "Random", "Minimizer", "Human"};
     private static final int MAX_PLAYERS = 4;
     private static final int DEFAULT_PLAYERS = 3;
     private static final int MIN_PLAYERS = 2;

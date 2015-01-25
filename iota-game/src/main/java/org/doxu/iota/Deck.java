@@ -2,9 +2,11 @@ package org.doxu.iota;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.Set;
 import org.doxu.iota.attr.Color;
 import org.doxu.iota.attr.Count;
 import org.doxu.iota.attr.Shape;
@@ -25,13 +27,15 @@ public class Deck {
 
     public final void init() {
         cards.clear();
-        List<Card> set = generateDeck();
-        Collections.shuffle(set);
-        cards.addAll(set);
+        Set<Card> set = generateDeck();
+        List<Card> shuffleList = new ArrayList<>(set.size());
+        shuffleList.addAll(set);
+        Collections.shuffle(shuffleList);
+        cards.addAll(shuffleList);
     }
 
-    private List<Card> generateDeck() {
-        List<Card> set = new ArrayList<>();
+    public static Set<Card> generateDeck() {
+        Set<Card> set = new HashSet<>();
         for (Color color : Color.real()) {
             for (Shape shape : Shape.real()) {
                 for (Count count : Count.real()) {
